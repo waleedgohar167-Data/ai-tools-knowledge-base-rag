@@ -1,0 +1,8 @@
+{
+  "tool_name": "Midjourney",
+  "source_url": "https://docs.midjourney.com/",
+  "documentation": "Midjourney generates images from natural language descriptions.",
+  "pricing": "Basic Plan starts at $10/month.",
+  "api_docs": "https://docs.midjourney.com/docs/api-access",
+  "changelog_url": "https://docs.midjourney.com/docs/releases"
+}

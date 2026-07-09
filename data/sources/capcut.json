@@ -1,0 +1,8 @@
+{
+  "tool_name": "CapCut",
+  "source_url": "https://www.capcut.com/getting-started",
+  "documentation": "CapCut is a video editing tool with AI features like auto-captions and background removal.",
+  "pricing": "Free tier available; Pro version is $9.99/month.",
+  "api_docs": "https://developer.capcut.com/",
+  "changelog_url": "https://www.capcut.com/blog"
+}

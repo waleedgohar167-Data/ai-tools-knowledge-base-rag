@@ -1,0 +1,8 @@
+{
+  "tool_name": "Google Gemini",
+  "source_url": "https://deepmind.google/technologies/gemini/",
+  "documentation": "Gemini is a multimodal AI model developed by Google capable of processing text, images, audio, and video.",
+  "pricing": "Free tier available; Gemini Advanced requires Google One AI Premium subscription.",
+  "api_docs": "https://ai.google.dev/docs",
+  "changelog_url": "https://gemini.google.com/updates"
+}
