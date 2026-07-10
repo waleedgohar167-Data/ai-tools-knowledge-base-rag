@@ -1,0 +1,23 @@
+[
+    {
+        "chunk_id": "7568c938-5551-4115-b92d-bc7a1cea63d0",
+        "document_name": "CapCut",
+        "source_url": "https://www.capcut.com/getting-started",
+        "chunk_text": "CapCut CapCut is a video editing tool with AI features like auto-captions and background removal.",
+        "timestamp": "2026-07-10T05:17:00.371964"
+    },
+    {
+        "chunk_id": "8ca315a6-d6f5-44a4-846e-4b14e7c06e10",
+        "document_name": "Google Gemini",
+        "source_url": "https://deepmind.google/technologies/gemini/",
+        "chunk_text": "Google Gemini Gemini is a multimodal AI model developed by Google capable of processing text, images, audio, and video.",
+        "timestamp": "2026-07-10T05:17:00.382204"
+    },
+    {
+        "chunk_id": "4ef94b05-9b36-435b-8196-71896be8c8a0",
+        "document_name": "Midjourney",
+        "source_url": "https://docs.midjourney.com/",
+        "chunk_text": "Midjourney Midjourney generates images from natural language descriptions.",
+        "timestamp": "2026-07-10T05:17:00.390776"
+    }
+]
