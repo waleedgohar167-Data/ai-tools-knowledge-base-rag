@@ -1,0 +1,10 @@
+{
+  "tool_name": "Cursor",
+  "documentation": "Cursor is an AI-first code editor built as a fork of VS Code. It deeply integrates LLMs to generate code, refactor entire files, and answer questions about the entire codebase using vector search.",
+  "pricing": "Basic is Free. Pro tier is $20/month offering unlimited completions and premium model access (GPT-4, Claude 3.5 Sonnet).",
+  "source_url": "https://cursor.com/",
+  "api_docs": "https://docs.cursor.com/",
+  "changelog_url": "https://changelog.cursor.com/",
+  "release_notes": "Cursor Tab update introduced multi-line predictive code generation and real-time error correction.",
+  "official_blog": "https://cursor.com/blog"
+}

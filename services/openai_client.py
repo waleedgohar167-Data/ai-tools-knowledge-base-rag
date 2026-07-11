@@ -1,17 +1,14 @@
-import os
 import sys
-import logging
 from typing import Optional
 from openai import OpenAI, AuthenticationError, APIConnectionError, RateLimitError
-from dotenv import load_dotenv
 
-# Configure enterprise-grade logging for production monitoring
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    handlers=[logging.StreamHandler(sys.stdout)]
-)
-logger = logging.getLogger("OpenAI_Client_Service")
+# 1. Import from your new centralized configuration!
+from config.settings import OPENAI_API_KEY
+# 2. Import your new centralized logger!
+from app_logging.logger import get_logger
+
+# Use the standardized logger
+logger = get_logger("OpenAI_Client_Service")
 
 class OpenAIIntegration:
     """
@@ -21,36 +18,35 @@ class OpenAIIntegration:
     
     def __init__(self, api_key: Optional[str] = None) -> None:
         """
-        Initializes the OpenAI client with secure environment variable loading.
+        Initializes the OpenAI client with secure centralized settings.
         """
-        load_dotenv()
-        self._api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self._api_key = api_key or OPENAI_API_KEY
         
         if not self._api_key:
             logger.critical("OPENAI_API_KEY is missing from environment variables.")
-            raise ValueError("System configuration error: OPENAI_API_KEY must be provided in the .env file.")
+            raise ValueError("System configuration error: OPENAI_API_KEY must be provided.")
             
         # Initialize the reusable client
         self.client = OpenAI(api_key=self._api_key)
 
     def test_connection(self) -> bool:
         """
-        Validates API connectivity and authentication using the highly cost-efficient gpt-5.4-mini model.
-        Returns True if successful, False otherwise.
+        Validates API connectivity and authentication.
         """
-        logger.info("Initiating OpenAI API connection test using gpt-5.4-mini...")
+        logger.info("Initiating OpenAI API connection test...")
         try:
+            # Note: gpt-4o-mini is the current fast/cheap model standard
             response = self.client.chat.completions.create(
-                model="gpt-5.4-mini", 
+                model="gpt-4o-mini", 
                 messages=[
                     {"role": "system", "content": "You are a backend diagnostic service for a RAG pipeline."},
                     {"role": "user", "content": "Acknowledge connection successfully established."}
                 ],
-                max_completion_tokens=20, # <-- Updated parameter for newer models
+                max_tokens=20, 
                 temperature=0.0 # Deterministic output for testing
             )
             
-            output = response.choices[0].message.content.strip()
+            output = (response.choices[0].message.content or "").strip()
             logger.info(f"SUCCESS! API Connection Verified. Response: {output}")
             return True
             

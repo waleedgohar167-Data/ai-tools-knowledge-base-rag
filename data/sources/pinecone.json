@@ -1,0 +1,10 @@
+{
+  "tool_name": "Pinecone",
+  "documentation": "Pinecone is a fully managed, cloud-native vector database designed for high-performance AI applications. It allows engineers to store, search, and scale vector embeddings with ultra-low latency.",
+  "pricing": "Free tier available (1 project, up to 2GB). Standard tier starts at $0.070/hr per pod. Serverless pricing is based on reads/writes and storage.",
+  "source_url": "https://www.pinecone.io/",
+  "api_docs": "https://docs.pinecone.io/reference/api/introduction",
+  "changelog_url": "https://docs.pinecone.io/release-notes",
+  "release_notes": "Introduction of Serverless architecture, allowing usage-based billing without pre-provisioning pods.",
+  "official_blog": "https://www.pinecone.io/learn/"
+}

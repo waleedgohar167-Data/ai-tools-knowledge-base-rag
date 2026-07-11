@@ -1,0 +1,10 @@
+{
+  "tool_name": "LlamaIndex",
+  "documentation": "LlamaIndex is a data framework for LLM-based applications to ingest, structure, and access private or domain-specific data. It provides data connectors, data indexes, and query engines for RAG pipelines.",
+  "pricing": "Open-source (Free). LlamaCloud offers enterprise plans starting with custom pricing based on usage.",
+  "source_url": "https://www.llamaindex.ai/",
+  "api_docs": "https://docs.llamaindex.ai/en/stable/api_reference/",
+  "changelog_url": "https://github.com/run-llama/llama_index/releases",
+  "release_notes": "Version 0.10 introduced a complete modular overhaul, separating core components into distinct pip packages for lighter deployments.",
+  "official_blog": "https://www.llamaindex.ai/blog"
+}

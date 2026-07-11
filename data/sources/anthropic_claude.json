@@ -1,0 +1,10 @@
+{
+  "tool_name": "Anthropic Claude",
+  "documentation": "Claude is a family of foundational AI models built by Anthropic, focused on safety, large context windows (up to 200k tokens), and advanced reasoning capabilities. Models include Haiku, Sonnet, and Opus.",
+  "pricing": "Claude 3.5 Sonnet is $3/M input tokens and $15/M output tokens via API. Claude Pro web interface is $20/month.",
+  "source_url": "https://www.anthropic.com/",
+  "api_docs": "https://docs.anthropic.com/en/api/getting-started",
+  "changelog_url": "https://docs.anthropic.com/en/release-notes/overview",
+  "release_notes": "Claude 3.5 Sonnet release sets new industry benchmarks for coding, vision, and speed at a mid-tier price point.",
+  "official_blog": "https://www.anthropic.com/news"
+}

@@ -1,0 +1,10 @@
+{
+  "tool_name": "LangChain",
+  "documentation": "LangChain is a framework for developing applications powered by language models. It enables context-aware reasoning and data connection. Key components include Prompts, Models, Memory, and Agents.",
+  "pricing": "Open-source (Free). LangSmith enterprise pricing starts at $39/user/month.",
+  "source_url": "https://python.langchain.com/",
+  "api_docs": "https://api.python.langchain.com/",
+  "changelog_url": "https://github.com/langchain-ai/langchain/releases",
+  "release_notes": "Version 0.1.0 introduced LCEL (LangChain Expression Language) for highly optimized streaming and parallel execution.",
+  "official_blog": "https://blog.langchain.dev/"
+}

@@ -1,0 +1,10 @@
+{
+  "tool_name": "Perplexity AI",
+  "documentation": "Perplexity is an AI-powered conversational search engine. It answers queries by synthesizing real-time web results and providing inline citations for accuracy and verifiability.",
+  "pricing": "Basic is Free. Perplexity Pro is $20/month, allowing unlimited Pro searches and choice of foundational models (Claude, GPT-4o).",
+  "source_url": "https://www.perplexity.ai/",
+  "api_docs": "https://docs.perplexity.ai/",
+  "changelog_url": "https://www.perplexity.ai/hub/changelog",
+  "release_notes": "Introduction of the Pages feature, allowing users to generate shareable, beautifully formatted reports from their searches.",
+  "official_blog": "https://www.perplexity.ai/hub/blog"
+}

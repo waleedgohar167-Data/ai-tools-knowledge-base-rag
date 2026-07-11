@@ -1,0 +1,10 @@
+{
+  "tool_name": "Hugging Face",
+  "documentation": "Hugging Face is a collaborative platform and open-source ecosystem for machine learning. It provides the Transformers library, Model Hub, and Dataset Hub, acting as the standard repository for open-source AI models.",
+  "pricing": "Hub is Free. Pro account is $9/month. Enterprise Hub starts at $20/user/month. Inference Endpoints are billed per hour based on compute.",
+  "source_url": "https://huggingface.co/",
+  "api_docs": "https://huggingface.co/docs",
+  "changelog_url": "https://github.com/huggingface/transformers/releases",
+  "release_notes": "Transformers v4.40 introduced native support for Llama-3 and optimized memory-efficient attention implementations.",
+  "official_blog": "https://huggingface.co/blog"
+}

@@ -36,10 +36,10 @@ def load_ai_tools_data():
 if __name__ == "__main__":
     logger.info("Initializing dlt ingestion pipeline...")
     
-    # Configure the pipeline destination to duckdb
+# Configure the pipeline destination to duckdb in the processed folder
     pipeline = dlt.pipeline(
         pipeline_name="ai_knowledge_base",
-        destination="duckdb",
+        destination=dlt.destinations.duckdb("data/processed/ai_knowledge_base.duckdb"),
         dataset_name="staging_docs"
     )
     

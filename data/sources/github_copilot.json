@@ -1,0 +1,10 @@
+{
+  "tool_name": "GitHub Copilot",
+  "documentation": "GitHub Copilot is an AI pair programmer that offers autocomplete-style suggestions as you code. It is integrated into IDEs like VS Code, Visual Studio, and JetBrains, using OpenAI models.",
+  "pricing": "Individual is $10/month or $100/year. Business is $19/user/month. Enterprise is $39/user/month.",
+  "source_url": "https://github.com/features/copilot",
+  "api_docs": "https://docs.github.com/en/copilot",
+  "changelog_url": "https://github.blog/changelog/label/copilot/",
+  "release_notes": "Copilot Chat introduced context-aware workspace querying and inline slash commands for refactoring.",
+  "official_blog": "https://github.blog/category/ai/"
+}

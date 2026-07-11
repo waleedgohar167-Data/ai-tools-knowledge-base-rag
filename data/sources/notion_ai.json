@@ -1,0 +1,10 @@
+{
+  "tool_name": "Notion AI",
+  "documentation": "Notion AI is a connected assistant integrated directly into the Notion workspace. It can write, brainstorm, edit, summarize, and query the user's entire database of connected notes and documents.",
+  "pricing": "Add-on costs $8/user/month (billed annually) for existing Notion subscribers, or $10/user/month for monthly billing.",
+  "source_url": "https://www.notion.so/product/ai",
+  "api_docs": "https://developers.notion.com/",
+  "changelog_url": "https://www.notion.so/releases",
+  "release_notes": "Q&A feature launch allows users to ask open-ended questions and receive answers sourced exclusively from their team's wiki.",
+  "official_blog": "https://www.notion.so/blog"
+}

@@ -1,0 +1,10 @@
+{
+  "tool_name": "ChromaDB",
+  "documentation": "Chroma is an open-source AI application database focused on developer productivity. It embeds, stores, and retrieves data natively, making it extremely easy to build RAG apps locally.",
+  "pricing": "Open-source (Free). Hosted Chroma is currently in early access with pricing TBA.",
+  "source_url": "https://www.trychroma.com/",
+  "api_docs": "https://docs.trychroma.com/api",
+  "changelog_url": "https://github.com/chroma-core/chroma/releases",
+  "release_notes": "Recent updates introduced improved multi-modal embedding support and enhanced metadata filtering performance.",
+  "official_blog": "https://www.trychroma.com/blog"
+}
