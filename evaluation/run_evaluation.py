@@ -105,17 +105,19 @@ def run_enterprise_evaluation():
         expected = item["expected_source"]
         print(f"🔄 Testing [{i}/{len(DATASET)}]: \"{query}\"")
         
-        # 1. Evaluate Semantic Retrieval Performance
-        start_retrieval = time.perf_counter()
-        results = search(query, limit=5)
-        retrieval_time = (time.perf_counter() - start_retrieval) * 1000
+        # 1. Evaluate Semantic Retrieval Performance (Perfect Tuple Unpacking)
+        results, retrieval_time = search(query, limit=5)
         total_retrieval_time += retrieval_time
         
         retrieved_docs = []
+        citations = []
         if results:
             for res in results:
                 payload = getattr(res, 'payload', {}) or {}
-                retrieved_docs.append(payload.get('tool', 'Unknown Document'))
+                tool_name = payload.get('tool', payload.get('document_name', 'Unknown Document'))
+                source_url = payload.get('source_url', 'No Source Link')
+                retrieved_docs.append(tool_name)
+                citations.append(f"`{tool_name}` ({source_url})")
         
         hit = any(expected.lower() in doc.lower() for doc in retrieved_docs)
         if hit:
@@ -124,21 +126,18 @@ def run_enterprise_evaluation():
         query_mrr = calculate_mrr(retrieved_docs, expected)
         total_mrr += query_mrr
         
-        # 2. Evaluate LLM Generation Performance
-        start_llm = time.perf_counter()
-        answer = generate_response(query, results)
-        llm_time = (time.perf_counter() - start_llm) * 1000
+        # 2. Evaluate LLM Generation Performance (Perfect Tuple Unpacking)
+        answer, llm_time, tokens = generate_response(query, results)
         total_llm_time += llm_time
-        
-        approx_tokens = int(len(answer.split()) * 1.3)
         
         # Build individual logs
         report_lines.append(f"### Query {i}: {query}")
         report_lines.append(f"- **Expected Target Source:** `{expected}`")
         report_lines.append(f"- **Retrieval Hit Accuracy:** {'✅ PASS' if hit else '❌ FAIL'} ({retrieval_time:.2f} ms)")
         report_lines.append(f"- **Reciprocal Rank (RR):** `{query_mrr:.4f}`")
+        report_lines.append(f"- **Source Citations (Top-K):** {', '.join(citations) if citations else 'None'}")
         report_lines.append(f"- **LLM Generation Latency:** {llm_time:.2f} ms")
-        report_lines.append(f"- **Approximate Token Consumption:** ~{approx_tokens} tokens")
+        report_lines.append(f"- **Approximate Token Consumption:** ~{tokens} tokens")
         report_lines.append(f"- **Generated Response Preview:**\n> {answer[:200].replace('\n', ' ')}...\n")
 
     # 3. Compute Aggregated Global Metrics

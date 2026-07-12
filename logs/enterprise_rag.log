@@ -1,0 +1,18 @@
+2026-07-12 17:03:18,917 - INFO - [Search_Service] - Initializing global QdrantClient and OpenAI embedding engine.
+2026-07-12 17:03:20,942 - INFO - [Main_Application] - ==================================================
+2026-07-12 17:03:20,942 - INFO - [Main_Application] - Enterprise AI Knowledge Base Application Started.
+2026-07-12 17:03:20,943 - INFO - [Main_Application] - ==================================================
+2026-07-12 17:04:37,331 - INFO - [Main_Application] - New User Request received: 'What is the enterprise pricing for LangChain?'
+2026-07-12 17:04:37,332 - INFO - [Search_Service] - Initiating vector retrieval for query: 'What is the enterprise pricing for LangChain?'
+2026-07-12 17:04:37,333 - INFO - [Search_Service] - Sending request to OpenAI for text embeddings.
+2026-07-12 17:04:42,063 - INFO - [Search_Service] - Querying Qdrant vector database (Collection: ai_tools_kb, Limit: 5).
+2026-07-12 17:04:42,071 - INFO - [Search_Service] - Successfully retrieved 5 documents in 4739.53 ms.
+2026-07-12 17:04:42,072 - INFO - [LLM_Service] - Sending generation request to OpenAI API (gpt-3.5-turbo).
+2026-07-12 17:04:45,968 - INFO - [LLM_Service] - OpenAI API response received in 3895.94 ms. Tokens used: 791
+2026-07-12 17:04:45,973 - INFO - [Analytics_Service] - Analytics updated. Total Requests: 1 | Est Cost: $0.0016
+2026-07-12 17:04:45,973 - INFO - [Main_Application] - Transaction successfully processed and application analytics updated.
+2026-07-12 17:06:20,189 - WARNING - [Main_Application] - User submitted an empty question string slot.
+2026-07-12 17:08:12,602 - INFO - [Main_Application] - User initiated application shutdown sequence.
+2026-07-12 17:08:12,602 - INFO - [Main_Application] - ==================================================
+2026-07-12 17:08:12,603 - INFO - [Main_Application] - Enterprise AI Knowledge Base Application Shutdown.
+2026-07-12 17:08:12,603 - INFO - [Main_Application] - ==================================================
