@@ -1,18 +1,30 @@
-2026-07-12 17:03:18,917 - INFO - [Search_Service] - Initializing global QdrantClient and OpenAI embedding engine.
-2026-07-12 17:03:20,942 - INFO - [Main_Application] - ==================================================
-2026-07-12 17:03:20,942 - INFO - [Main_Application] - Enterprise AI Knowledge Base Application Started.
-2026-07-12 17:03:20,943 - INFO - [Main_Application] - ==================================================
-2026-07-12 17:04:37,331 - INFO - [Main_Application] - New User Request received: 'What is the enterprise pricing for LangChain?'
-2026-07-12 17:04:37,332 - INFO - [Search_Service] - Initiating vector retrieval for query: 'What is the enterprise pricing for LangChain?'
-2026-07-12 17:04:37,333 - INFO - [Search_Service] - Sending request to OpenAI for text embeddings.
-2026-07-12 17:04:42,063 - INFO - [Search_Service] - Querying Qdrant vector database (Collection: ai_tools_kb, Limit: 5).
-2026-07-12 17:04:42,071 - INFO - [Search_Service] - Successfully retrieved 5 documents in 4739.53 ms.
-2026-07-12 17:04:42,072 - INFO - [LLM_Service] - Sending generation request to OpenAI API (gpt-3.5-turbo).
-2026-07-12 17:04:45,968 - INFO - [LLM_Service] - OpenAI API response received in 3895.94 ms. Tokens used: 791
-2026-07-12 17:04:45,973 - INFO - [Analytics_Service] - Analytics updated. Total Requests: 1 | Est Cost: $0.0016
-2026-07-12 17:04:45,973 - INFO - [Main_Application] - Transaction successfully processed and application analytics updated.
-2026-07-12 17:06:20,189 - WARNING - [Main_Application] - User submitted an empty question string slot.
-2026-07-12 17:08:12,602 - INFO - [Main_Application] - User initiated application shutdown sequence.
-2026-07-12 17:08:12,602 - INFO - [Main_Application] - ==================================================
-2026-07-12 17:08:12,603 - INFO - [Main_Application] - Enterprise AI Knowledge Base Application Shutdown.
-2026-07-12 17:08:12,603 - INFO - [Main_Application] - ==================================================
+2026-07-13 12:46:05,865 - INFO - [Search_Service] - Initializing global QdrantClient and OpenAI embedding engine.
+2026-07-13 12:48:17,263 - INFO - [Search_Service] - Initiating vector retrieval for query: 'hi'
+2026-07-13 12:48:17,267 - INFO - [Search_Service] - Sending request to OpenAI for text embeddings.
+2026-07-13 12:48:21,818 - INFO - [Search_Service] - Querying Qdrant vector database (Collection: ai_tools_kb, Limit: 5).
+2026-07-13 12:48:21,831 - INFO - [Search_Service] - Successfully retrieved 5 documents in 4568.15 ms.
+2026-07-13 12:48:21,837 - INFO - [LLM_Service] - Sending generation request to OpenAI API (gpt-3.5-turbo).
+2026-07-13 12:48:23,996 - INFO - [LLM_Service] - OpenAI API response received in 2159.69 ms. Tokens used: 710
+2026-07-13 12:48:24,035 - INFO - [Analytics_Service] - Analytics updated. Total Requests: 2 | Est Cost: $0.0030
+2026-07-13 12:55:45,527 - INFO - [Search_Service] - Initiating vector retrieval for query: 'what is capcut?'
+2026-07-13 12:55:45,529 - INFO - [Search_Service] - Sending request to OpenAI for text embeddings.
+2026-07-13 12:55:46,843 - INFO - [Search_Service] - Querying Qdrant vector database (Collection: ai_tools_kb, Limit: 5).
+2026-07-13 12:55:46,853 - INFO - [Search_Service] - Successfully retrieved 5 documents in 1325.56 ms.
+2026-07-13 12:55:46,859 - INFO - [LLM_Service] - Sending generation request to OpenAI API (gpt-3.5-turbo).
+2026-07-13 12:55:51,348 - INFO - [LLM_Service] - OpenAI API response received in 4489.52 ms. Tokens used: 748
+2026-07-13 12:55:51,397 - INFO - [Analytics_Service] - Analytics updated. Total Requests: 3 | Est Cost: $0.0045
+2026-07-13 13:22:01,232 - INFO - [Search_Service] - Initiating vector retrieval for query: 'what is the prizing for github copilot?'
+2026-07-13 13:22:01,233 - INFO - [Search_Service] - Sending request to OpenAI for text embeddings.
+2026-07-13 13:22:03,525 - INFO - [Search_Service] - Querying Qdrant vector database (Collection: ai_tools_kb, Limit: 5).
+2026-07-13 13:22:03,529 - INFO - [Search_Service] - Successfully retrieved 5 documents in 2296.84 ms.
+2026-07-13 13:22:03,531 - INFO - [LLM_Service] - Sending generation request to OpenAI API (gpt-3.5-turbo).
+2026-07-13 13:22:06,250 - INFO - [LLM_Service] - OpenAI API response received in 2719.10 ms. Tokens used: 789
+2026-07-13 13:22:06,275 - INFO - [Analytics_Service] - Analytics updated. Total Requests: 4 | Est Cost: $0.0061
+2026-07-13 13:25:24,471 - INFO - [Search_Service] - Initiating vector retrieval for query: 'what is capcut?'
+2026-07-13 13:25:24,472 - INFO - [Search_Service] - Sending request to OpenAI for text embeddings.
+2026-07-13 13:25:25,277 - INFO - [Search_Service] - Querying Qdrant vector database (Collection: ai_tools_kb, Limit: 5).
+2026-07-13 13:25:25,280 - INFO - [Search_Service] - Successfully retrieved 5 documents in 809.30 ms.
+2026-07-13 13:25:25,283 - INFO - [LLM_Service] - Sending generation request to OpenAI API (gpt-3.5-turbo).
+2026-07-13 13:25:28,506 - INFO - [LLM_Service] - OpenAI API response received in 3223.15 ms. Tokens used: 748
+2026-07-13 13:25:28,529 - INFO - [Analytics_Service] - Analytics updated. Total Requests: 5 | Est Cost: $0.0076
+2026-07-13 13:25:42,720 - INFO - [Feedback_Service] - User feedback successfully logged to CSV database.
