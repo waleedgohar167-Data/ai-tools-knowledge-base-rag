@@ -1,0 +1,32 @@
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: enterprise_ai_app
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./qdrant_local_data:/app/qdrant_local_data
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - qdrant
+    networks:
+      - rag_network
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant_db
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant_local_data:/qdrant/storage:rw
+    networks:
+      - rag_network
+
+networks:
+  rag_network:
+    driver: bridge
