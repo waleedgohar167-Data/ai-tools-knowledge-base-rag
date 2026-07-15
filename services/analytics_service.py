@@ -1,11 +1,10 @@
 # services/analytics_service.py
 import os
 import json
+from config.settings import ANALYTICS_FILE
 from app_logging.logger import get_logger
 
 logger = get_logger("Analytics_Service")
-
-ANALYTICS_FILE = os.path.join("logs", "application_analytics.json")
 
 # Standard estimated cost per 1,000 tokens for generation models (approximate for tracking)
 COST_PER_1K_TOKENS = 0.002 

@@ -1,7 +1,7 @@
 # services/llm_service.py
 import time
 from typing import Tuple
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
 from config.settings import OPENAI_API_KEY
 from prompts.templates import build_rag_prompt
 from app_logging.logger import get_logger
@@ -36,6 +36,15 @@ def generate_response(user_query: str, search_results: list) -> Tuple[str, float
         logger.info(f"OpenAI API response received in {generation_time:.2f} ms. Tokens used: {tokens_used}")
         
         return answer, generation_time, tokens_used
+        
+    except OpenAIError as e:
+        # IMPROVEMENT: Specifically catch OpenAI API limits/timeouts
+        logger.error(f"OpenAI API Error: {e}", exc_info=True)
+        fallback_msg = "I am currently experiencing high latency or rate limits with the AI provider. Please try asking your question again in a moment."
+        return fallback_msg, 0.0, 0
+        
     except Exception as e:
-        logger.error(f"Failed to generate response: {e}", exc_info=True)
-        return f"An error occurred while communicating with the AI: {e}", 0.0, 0
+        # IMPROVEMENT: Graceful degradation for the UI (hides raw backend errors from the user)
+        logger.error(f"Unexpected error during LLM generation: {e}", exc_info=True)
+        fallback_msg = "An unexpected error occurred while generating the response. My systems have logged the issue for review."
+        return fallback_msg, 0.0, 0

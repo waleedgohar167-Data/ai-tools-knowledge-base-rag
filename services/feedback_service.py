@@ -2,10 +2,10 @@
 import os
 import csv
 from datetime import datetime
+from config.settings import FEEDBACK_FILE
 from app_logging.logger import get_logger
 
 logger = get_logger("Feedback_Service")
-FEEDBACK_FILE = os.path.join("logs", "user_feedback.csv")
 
 def save_feedback(query: str, answer: str, is_helpful: bool, comment: str):
     """Saves user feedback into a dedicated CSV database."""

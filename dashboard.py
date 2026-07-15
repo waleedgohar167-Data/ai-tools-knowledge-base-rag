@@ -7,13 +7,13 @@ from typing import Any
 
 import plotly.graph_objects as go
 
+# IMPROVEMENT: Centralized Configuration Imports
+from config.settings import ANALYTICS_FILE, FEEDBACK_FILE, RETRIEVAL_LIMIT
+
 from services.search_service import search
 from services.llm_service import generate_response
 from services.analytics_service import record_transaction
 from services.feedback_service import save_feedback
-
-# FIX 1: Ensure logs directory exists before anything tries to read/write to it
-os.makedirs("logs", exist_ok=True)
 
 # ---------------------------------------------------------------------------
 # Page Configuration
@@ -33,12 +33,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
-# Constants
-# ---------------------------------------------------------------------------
-ANALYTICS_FILE = os.path.join("logs", "application_analytics.json")
-FEEDBACK_FILE = os.path.join("logs", "user_feedback.csv")
-
-# ---------------------------------------------------------------------------
 # Data Loading Helpers
 # ---------------------------------------------------------------------------
 
@@ -48,8 +42,12 @@ def load_analytics() -> dict:
         try:
             with open(ANALYTICS_FILE, "r", encoding="utf-8") as f:
                 return json.load(f)
-        except (json.JSONDecodeError, IOError):
-            pass
+        # IMPROVEMENT: Explicit error logging for analytics masking
+        except json.JSONDecodeError as e:
+            print(f"WARNING: Analytics file is corrupted. Reverting to defaults. Error: {e}")
+        except IOError as e:
+            print(f"WARNING: Could not read analytics file. Error: {e}")
+            
     return {
         "total_requests": 0,
         "successful_requests": 0,
@@ -188,7 +186,6 @@ def render_source_citations(results: list[Any], retrieval_ms: float) -> None:
     """Render retrieved source documents as expandable citation blocks."""
     st.markdown(f"*Retrieved {len(results)} sources in {retrieval_ms:.0f} ms*")
     for i, res in enumerate(results, 1):
-        # FIX 2: Safely handle both Qdrant objects and standard Python dictionaries
         if isinstance(res, dict):
             payload = res.get("payload", {}) or {}
             score = res.get("score", 0.0)
@@ -231,7 +228,8 @@ def render_chat_tab() -> None:
 
         with st.chat_message("assistant"):
             with st.spinner("Searching vector database..."):
-                search_res = search(prompt, limit=5)
+                # IMPROVEMENT: Use the centralized limit from config
+                search_res = search(prompt, limit=RETRIEVAL_LIMIT)
                 results = search_res[0] if isinstance(search_res, tuple) else search_res
                 retrieval_ms = search_res[1] if isinstance(search_res, tuple) and len(search_res) > 1 else 0.0
 
@@ -247,28 +245,28 @@ def render_chat_tab() -> None:
                     gen_ms = gen_res[1] if isinstance(gen_res, tuple) and len(gen_res) > 1 else 0.0
                     tokens = gen_res[2] if isinstance(gen_res, tuple) and len(gen_res) > 2 else 0
 
-                st.markdown(answer)
-                render_source_citations(results, retrieval_ms)
+            st.markdown(answer)
+            render_source_citations(results, retrieval_ms)
 
-                record_transaction(
-                    success=True,
-                    retrieval_time=retrieval_ms,
-                    generation_time=gen_ms,
-                    tokens=tokens,
-                )
+            record_transaction(
+                success=True,
+                retrieval_time=retrieval_ms,
+                generation_time=gen_ms,
+                tokens=tokens,
+            )
 
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": answer,
-                    "sources": results,
-                    "retrieval_ms": retrieval_ms,
-                    "gen_ms": gen_ms,
-                    "tokens": tokens,
-                    "query": prompt,
-                })
-                
-                # FIX: Explicitly render the buttons for the brand new message instantly!
-                _render_feedback_buttons(len(st.session_state.messages) - 1, st.session_state.messages[-1])
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": answer,
+                "sources": results,
+                "retrieval_ms": retrieval_ms,
+                "gen_ms": gen_ms,
+                "tokens": tokens,
+                "query": prompt,
+            })
+            
+            # Explicitly render the buttons for the brand new message instantly!
+            _render_feedback_buttons(len(st.session_state.messages) - 1, st.session_state.messages[-1])
 
 
 def _render_feedback_buttons(idx: int, msg: dict) -> None:
