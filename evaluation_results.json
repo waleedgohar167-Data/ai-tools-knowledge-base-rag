@@ -1,0 +1,202 @@
+[
+    {
+        "query": "What is the enterprise pricing for LangChain?",
+        "expected_source": "LangChain",
+        "expected_answer": "LangChain offers enterprise pricing customized per organization; you must contact sales for a specific quote.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 4197.487300000375,
+            "generation_ms": 2965.7312999997885
+        },
+        "judge_scores": {
+            "answer_relevance": 4,
+            "context_faithfulness": 5,
+            "completeness": 3,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**Summary:**\nThe enterprise pricing for LangChain is not explicitly mentioned in the provided context documents.\n\n**Key Points:**\n- LangChain is an open-source framework for developing applications powered by language models.\n- LangChain's pricing details mention LangSmith enterprise pricing starting at $39/user/month.\n- The specific enterprise pricing for LangChain itself is not specified in the available information."
+    },
+    {
+        "query": "How does LangChain handle vector store abstractions?",
+        "expected_source": "LangChain",
+        "expected_answer": "LangChain provides standard interfaces to wrap various vector databases, allowing seamless switching between them.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 1955.6538000001638,
+            "generation_ms": 1607.5464000000466
+        },
+        "judge_scores": {
+            "answer_relevance": 2,
+            "context_faithfulness": 3,
+            "completeness": 2,
+            "correctness": 4,
+            "clarity": 4,
+            "source_citation_quality": 4
+        },
+        "generated_response": "**Summary:**\nLangChain is a framework for developing applications powered by language models, enabling context-aware reasoning and data connection. However, the provided context does not specify how LangChain specifically handles vector store abstractions.\n\n**Key Points:**\n- LangChain is a framework for developing applications powered by language models.\n- It enables context-aware reasoning and data connection.\n- Key components include Prompts, Models, Memory, and Agents.\n- LangChain's pricing is open-source (Free).\n- Version 0.1.0 introduced LCEL (LangChain Expression Language) for optimized streaming and parallel execution."
+    },
+    {
+        "query": "Give me an example of a LangChain expression language LCEL chain.",
+        "expected_source": "LangChain",
+        "expected_answer": "An LCEL chain typically links a prompt template, an LLM, and an output parser using the pipe (|) operator.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 293.26309999987643,
+            "generation_ms": 2125.0866000000315
+        },
+        "judge_scores": {
+            "answer_relevance": 5,
+            "context_faithfulness": 5,
+            "completeness": 4,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**Summary:**\nThe LangChain framework introduced the LangChain Expression Language (LCEL) in version 0.1.0 for optimized streaming and parallel execution. An example of a specific LCEL chain is not provided in the current knowledge base.\n\n**Key Points:**\n- LangChain introduced LCEL (LangChain Expression Language) in version 0.1.0.\n- LCEL is designed for highly optimized streaming and parallel execution.\n- The specific example of a LangChain expression language (LCEL) chain is not available in the provided information."
+    },
+    {
+        "query": "What are the latest production release notes for LangChain?",
+        "expected_source": "LangChain",
+        "expected_answer": "The latest notes include improved async support, LCEL performance enhancements, and expanded tracing capabilities.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 352.5485000000117,
+            "generation_ms": 1378.2882000000427
+        },
+        "judge_scores": {
+            "answer_relevance": 5,
+            "context_faithfulness": 5,
+            "completeness": 5,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**Summary:**\nThe latest production release notes for LangChain include the introduction of LCEL (LangChain Expression Language) in Version 0.1.0. This new feature is designed for highly optimized streaming and parallel execution within the LangChain framework.\n\n**Key Points:**\n- LangChain's latest production release notes introduced LCEL (LangChain Expression Language) in Version 0.1.0.\n- LCEL is aimed at providing highly optimized streaming and parallel execution capabilities within the LangChain framework."
+    },
+    {
+        "query": "Explain how Cursor integrates with VS Code.",
+        "expected_source": "Cursor",
+        "expected_answer": "Cursor is a fork of VS Code, meaning it natively supports all VS Code extensions, keybindings, and settings.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 299.2503000000397,
+            "generation_ms": 3222.692900000311
+        },
+        "judge_scores": {
+            "answer_relevance": 4,
+            "context_faithfulness": 5,
+            "completeness": 4,
+            "correctness": 5,
+            "clarity": 4,
+            "source_citation_quality": 5
+        },
+        "generated_response": "| Aspect              | Cursor                      | GitHub Copilot               |\n|---------------------|-----------------------------|------------------------------|\n| Integration Method  | Built as a fork of VS Code  | Integrated into IDEs like VS Code, Visual Studio, and JetBrains |\n| Functionality       | AI-first code editor       | AI pair programmer with autocomplete-style suggestions |\n| AI Models Used      | LLMs                        | OpenAI models                |\n| Pricing             | Basic is Free, Pro tier $20/month | Individual $10/month or $100/year, Business $19/user/month, Enterprise $39/user/month |\n| API Reference       | [Cursor API Reference](https://docs.cursor.com/) | [GitHub Copilot API Reference](https://docs.github.com/en/copilot) |\n| Release Notes       | Multi-line predictive code generation, real-time error correction | Context-aware workspace querying, inline slash commands for refactoring |"
+    },
+    {
+        "query": "What are the indexing capabilities of Cursor for large codebases?",
+        "expected_source": "Cursor",
+        "expected_answer": "Cursor builds a local semantic index of your codebase to allow the AI to understand cross-file context and dependencies.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 310.00089999997726,
+            "generation_ms": 760.3702999999769
+        },
+        "judge_scores": {
+            "answer_relevance": 1,
+            "context_faithfulness": 5,
+            "completeness": 1,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**User Question:** What are the indexing capabilities of Cursor for large codebases?\n\nBased on the provided context documents, I do not have enough information to answer that based on the current knowledge base."
+    },
+    {
+        "query": "Does Cursor support multi-line editing using AI commands?",
+        "expected_source": "Cursor",
+        "expected_answer": "Yes, Cursor's Cmd-K feature allows AI-driven multi-line edits and refactoring directly inline.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 312.6809999998841,
+            "generation_ms": 1170.8573999999317
+        },
+        "judge_scores": {
+            "answer_relevance": 5,
+            "context_faithfulness": 5,
+            "completeness": 5,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**Summary:**\nCursor, an AI-first code editor, introduced a Tab update that included multi-line predictive code generation and real-time error correction. This update enhances the editing capabilities of Cursor by supporting multi-line editing using AI commands.\n\n**Key Points:**\n- Cursor introduced a Tab update that includes multi-line predictive code generation and real-time error correction.\n- This update enhances Cursor's editing capabilities by supporting multi-line editing using AI commands."
+    },
+    {
+        "query": "What is the pricing model for Cursor Pro and Business tiers?",
+        "expected_source": "Cursor",
+        "expected_answer": "Cursor Pro is $20/month, and Business is $40/user/month with enhanced privacy and central billing.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 277.29890000000523,
+            "generation_ms": 1348.05359999973
+        },
+        "judge_scores": {
+            "answer_relevance": 5,
+            "context_faithfulness": 5,
+            "completeness": 4,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**Summary:**\nThe pricing model for Cursor includes a Free Basic tier and a Pro tier priced at $20/month. The Pro tier offers unlimited completions and access to premium models like GPT-4 and Claude 3.5 Sonnet. There is no specific mention of a Business tier in the provided context.\n\n**Key Points:**\n- Cursor offers a Free Basic tier.\n- Cursor's Pro tier is priced at $20/month.\n- The Pro tier provides unlimited completions and access to premium models like GPT-4 and Claude 3.5 Sonnet.\n- No information is available regarding a Business tier for Cursor."
+    },
+    {
+        "query": "Compare Pinecone and ChromaDB pricing.",
+        "expected_source": "Pinecone",
+        "expected_answer": "Pinecone is a managed SaaS with consumption-based pricing, whereas ChromaDB is open-source and free to host yourself.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 278.7236999997731,
+            "generation_ms": 1328.7176999997428
+        },
+        "judge_scores": {
+            "answer_relevance": 5,
+            "context_faithfulness": 5,
+            "completeness": 5,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "| Feature          | Pinecone                                      | ChromaDB                                      |\n|------------------|-----------------------------------------------|-----------------------------------------------|\n| Pricing Model    | Free tier available; Standard tier at $0.070/hr per pod; Serverless pricing based on reads/writes and storage | Open-source; Hosted version in early access with pricing TBD |\n| Free Tier        | Available (1 project, up to 2GB)             | Yes                                           |\n| Standard Tier    | Starts at $0.070/hr per pod                  | Not applicable                                |\n| Serverless Model | Usage-based billing without pre-provisioning pods | Not applicable                                |"
+    },
+    {
+        "query": "What is the architecture behind Pinecone serverless indexes?",
+        "expected_source": "Pinecone",
+        "expected_answer": "Serverless Pinecone separates compute and storage, scaling automatically based on usage without manual pod provisioning.",
+        "retrieval_hit": true,
+        "mrr": 1.0,
+        "latency": {
+            "retrieval_ms": 266.3738999999623,
+            "generation_ms": 2422.0955999999205
+        },
+        "judge_scores": {
+            "answer_relevance": 5,
+            "context_faithfulness": 5,
+            "completeness": 5,
+            "correctness": 5,
+            "clarity": 5,
+            "source_citation_quality": 5
+        },
+        "generated_response": "**Summary:**\nThe architecture behind Pinecone serverless indexes is designed to support usage-based billing without the need for pre-provisioning pods. This serverless architecture allows for more flexible and cost-effective usage of Pinecone's services.\n\n**Key Points:**\n- Pinecone has introduced a Serverless architecture for its indexes.\n- This architecture enables usage-based billing without pre-provisioning pods.\n- The serverless setup provides flexibility and cost-effectiveness for users of Pinecone's services."
+    }
+]

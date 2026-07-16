@@ -16,6 +16,12 @@ A production-grade Retrieval-Augmented Generation pipeline that ingests, embeds,
 8. [Monitoring & Observability](#8-monitoring--observability)
 9. [Project Structure](#9-project-structure)
 10. [Future Improvements](#10-future-improvements)
+11. [Docker: Running Qdrant Locally](#11-docker-running-qdrant-locally)
+12. [Troubleshooting](#12-troubleshooting)
+11. [Docker: Running Qdrant Locally](#11-docker-running-qdrant-locally)
+12. [Troubleshooting](#12-troubleshooting)
+11. [Docker: Running Qdrant Locally](#11-docker-running-qdrant-locally)
+12. [Troubleshooting](#12-troubleshooting)
 
 ---
 
@@ -459,6 +465,124 @@ ai-tools-knowledge-base-rag/
 **2. Automated Ingestion via Scheduled Pipelines.** The knowledge base currently relies on manually curated JSON files. Integrating scheduled web scrapers or API connectors into the `dlt` pipeline — triggered by an orchestration framework such as Prefect or Airflow — would enable automated documentation drift detection, ensuring the vector index reflects the latest vendor documentation without manual intervention.
 
 **3. Multi-Tenant Deployment with Authentication.** The current architecture serves a single unauthenticated Streamlit instance. For production-scale deployment, the system should be fronted by an API gateway (e.g., NGINX or Traefik) with OAuth 2.0 / OIDC authentication, namespace-isolated Qdrant collections per tenant, and horizontal scaling of the application container behind a load balancer with health-check probes on the `/healthz` endpoint.
+
+---
+
+## 11. Docker: Running Qdrant Locally
+
+To run the Qdrant vector database as a standalone container (outside of Docker Compose), use the following command:
+
+```bash
+docker run -d \
+  --name qdrant_db \
+  -p 6333:6333 \
+  -p 6334:6334 \
+  -v "$(pwd)/qdrant_local_data:/qdrant/storage:z" \
+  qdrant/qdrant:latest
+```
+
+| Flag | Purpose |
+|---|---|
+| `-d` | Run in detached (background) mode |
+| `--name qdrant_db` | Assign a predictable container name for reference |
+| `-p 6333:6333` | Expose the HTTP REST API on the host |
+| `-p 6334:6334` | Expose the gRPC interface on the host |
+| `-v "$(pwd)/qdrant_local_data:/qdrant/storage:z"` | Persist vector data to the host filesystem |
+
+**Verify Qdrant is running:**
+
+```bash
+curl http://localhost:6333/healthz
+```
+
+A healthy instance returns:
+
+```json
+{"title":"qdrant - vector search engine","version":"1.x.x","commit":"..."}
+```
+
+The Qdrant Web UI is accessible at `http://localhost:6333/dashboard` for visual inspection of collections, points, and cluster status.
+
+**Windows (PowerShell) variant:**
+
+```powershell
+docker run -d `
+  --name qdrant_db `
+  -p 6333:6333 `
+  -p 6334:6334 `
+  -v "${PWD}/qdrant_local_data:/qdrant/storage" `
+  qdrant/qdrant:latest
+```
+
+---
+
+## 12. Troubleshooting
+
+### Qdrant Connection Refused
+
+**Symptom:** `ConnectionRefusedError: [Errno 111] Connection refused` or `Failed to connect to localhost:6333`
+
+**Causes and Fixes:**
+
+| Cause | Fix |
+|---|---|
+| Qdrant container not running | Run `docker ps` to verify. Start with `docker-compose up -d qdrant_db` or the standalone `docker run` command above. |
+| Port conflict on 6333 | Check for port collisions: `netstat -tlnp | grep 6333` (Linux) or `netstat -ano | findstr 6333` (Windows). Stop the conflicting process or remap Qdrant to another host port (e.g., `-p 6334:6333`). |
+| Docker network mismatch | When running the app outside Docker but Qdrant inside, ensure you connect to `localhost:6333`. When both run inside Docker Compose, use the service name `qdrant_db:6333` as the host. |
+| Qdrant still initializing | The container may need a few seconds to load collections on startup. Retry after 5 seconds or add a health-check wait in your script. |
+
+---
+
+### OpenAI API Rate Limits
+
+**Symptom:** `openai.RateLimitError: Error code: 429 — You exceeded your current quota`
+
+**Fixes:**
+
+1. **Check your billing status.** Navigate to [platform.openai.com/account/billing](https://platform.openai.com/account/billing) and confirm an active payment method with available credits.
+2. **Implement exponential backoff.** The application retries transient 429 errors automatically. If ingesting large batches, add a delay between embedding calls (e.g., `time.sleep(1)` between iterations).
+3. **Monitor usage.** Check your current consumption at the OpenAI usage dashboard to identify whether you are approaching tier-specific RPM (requests per minute) or TPM (tokens per minute) limits.
+4. **Upgrade your API tier.** Free-tier accounts have significantly lower rate limits. A paid plan ($5+ credit) increases limits by an order of magnitude.
+
+---
+
+### OpenAI Timeout Errors
+
+**Symptom:** `openai.APITimeoutError: Request timed out` or `httpx.ReadTimeout`
+
+**Fixes:**
+
+| Cause | Fix |
+|---|---|
+| Network latency or instability | Verify internet connectivity. Test with `curl https://api.openai.com/v1/models -H "Authorization: Bearer $OPENAI_API_KEY"`. |
+| Large batch embedding requests | Break ingestion into smaller batches (5–10 documents per cycle) to reduce per-request payload size. |
+| OpenAI service degradation | Check [status.openai.com](https://status.openai.com) for ongoing incidents. Retry after a few minutes. |
+| Proxy or firewall interference | If behind a corporate proxy, ensure `HTTPS_PROXY` is set correctly and the proxy allows traffic to `api.openai.com`. |
+
+---
+
+### Docker Build Failures
+
+**Symptom:** `pip install` fails during `docker-compose up --build`
+
+**Fixes:**
+
+1. **Insufficient disk space.** Docker builds require temporary storage for layer caching. Free space with `docker system prune -f`.
+2. **Network timeout during pip install.** Retry the build. If persistent, add `--network=host` to the build context or configure a pip mirror.
+3. **Stale Docker cache.** Force a clean rebuild: `docker-compose build --no-cache`.
+
+---
+
+### Environment Variable Issues
+
+**Symptom:** `ValueError: OPENAI_API_KEY is not set` at startup
+
+**Fixes:**
+
+1. Confirm `.env` exists in the project root (not inside a subdirectory).
+2. Verify the key has no trailing whitespace or invisible characters: `cat -A .env | grep OPENAI`.
+3. Ensure Docker Compose loads the file — check for `env_file: .env` in `docker-compose.yml`.
+4. If running locally without Docker, export the variable in your shell session: `export OPENAI_API_KEY=sk-...`.
 
 ---
 

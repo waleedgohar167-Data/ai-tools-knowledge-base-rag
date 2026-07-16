@@ -1,6 +1,7 @@
-# services/analytics_service.py
+from typing import Optional
 import os
 import json
+import uuid
 from config.settings import ANALYTICS_FILE
 from app_logging.logger import get_logger
 
@@ -38,8 +39,12 @@ def save_analytics(data: dict):
     except Exception as e:
         logger.error(f"Failed to save analytics file: {e}")
 
-def record_transaction(success: bool, retrieval_time: float = 0.0, generation_time: float = 0.0, tokens: int = 0):
-    """Updates the global analytics metrics after every user request."""
+def record_transaction(success: bool, retrieval_time: float = 0.0, generation_time: float = 0.0, tokens: int = 0, session_id: str = "unknown", request_id: Optional[str] = None):
+    """Updates the global analytics metrics after every user request and logs session tracking."""
+    # Feature 2 & Set 1 Compliance: Generate unique Request ID if not provided by the UI
+    if not request_id:
+        request_id = str(uuid.uuid4())
+
     data = load_analytics()
     
     data["total_requests"] += 1
@@ -55,11 +60,13 @@ def record_transaction(success: bool, retrieval_time: float = 0.0, generation_ti
         data["cumulative_retrieval_time_ms"] += retrieval_time
         data["cumulative_response_time_ms"] += generation_time
         
-        # Update Averages
+        # Update Averages safely
         data["average_retrieval_latency_ms"] = data["cumulative_retrieval_time_ms"] / data["successful_requests"]
         data["average_response_time_ms"] = data["cumulative_response_time_ms"] / data["successful_requests"]
     else:
         data["failed_requests"] += 1
         
     save_analytics(data)
-    logger.info(f"Analytics updated. Total Requests: {data['total_requests']} | Est Cost: ${data['estimated_api_cost_usd']:.4f}")
+    
+    # Feature 2 & Set 1 Compliance: Enterprise-grade logging with Request and Session IDs
+    logger.info(f"Transaction logged | Req ID: {request_id} | Session: {session_id} | Success: {success} | Total Req: {data['total_requests']} | Est Cost: ${data['estimated_api_cost_usd']:.4f}")

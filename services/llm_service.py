@@ -1,5 +1,6 @@
 # services/llm_service.py
 import time
+import json
 from typing import Tuple
 from openai import OpenAI, OpenAIError
 from config.settings import OPENAI_API_KEY
@@ -48,3 +49,65 @@ def generate_response(user_query: str, search_results: list) -> Tuple[str, float
         logger.error(f"Unexpected error during LLM generation: {e}", exc_info=True)
         fallback_msg = "An unexpected error occurred while generating the response. My systems have logged the issue for review."
         return fallback_msg, 0.0, 0
+
+def evaluate_response_quality(query: str, retrieved_context: str, generated_response: str) -> dict:
+    """
+    LLM-as-a-Judge implementation to systematically score the RAG generation pipeline
+    across 6 core production metrics using structured JSON output.
+    """
+    logger.info("Initiating LLM-as-a-Judge response evaluation.")
+    
+    judge_prompt = f"""
+    You are an expert enterprise AI evaluator grading a Retrieval-Augmented Generation (RAG) system.
+    Analyze the original user query, the retrieved context chunks, and the generated system response carefully.
+    
+    Query: {query}
+    Retrieved Context: {retrieved_context}
+    Generated Response: {generated_response}
+    
+    Score the following criteria strictly from 1 to 5 (1 being poor/inaccurate, 5 being flawless/perfect):
+    1. answer_relevance: Does the response directly, cleanly, and fully address the user's core intent?
+    2. context_faithfulness: Is the response strictly grounded in the provided context? Deduct points for any outside assumptions or hallucinations.
+    3. completeness: Does the response fully answer all explicit and implicit aspects of the user's question?
+    4. correctness: Is the information factually accurate and completely true relative to the provided text?
+    5. clarity: Is the structure, readability, and delivery of the text optimal and highly professional?
+    6. source_citation_quality: Does the response properly and clearly credit the target context documentation without misattribution?
+    
+    Your output must be strictly formatted as a valid JSON object matching this exact schema:
+    {{
+        "answer_relevance": int,
+        "context_faithfulness": int,
+        "completeness": int,
+        "correctness": int,
+        "clarity": int,
+        "source_citation_quality": int
+    }}
+    """
+    
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": "You are a rigid and objective JSON evaluation utility."},
+                {"role": "user", "content": judge_prompt}
+            ],
+            temperature=0.0  # Zero temperature ensures consistent, deterministic evaluation grading
+        )
+        
+        raw_content = response.choices[0].message.content or "{}"
+        evaluation_result = json.loads(raw_content)
+        logger.info("Successfully received structured validation scores from LLM judge.")
+        return evaluation_result
+        
+    except Exception as e:
+        logger.error(f"LLM-as-a-Judge evaluation failure: {e}", exc_info=True)
+        # Safe fallback dictionary to ensure the evaluation engine script never crashes out mid-run
+        return {
+            "answer_relevance": 0,
+            "context_faithfulness": 0,
+            "completeness": 0,
+            "correctness": 0,
+            "clarity": 0,
+            "source_citation_quality": 0
+        }
