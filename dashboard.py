@@ -91,63 +91,58 @@ def load_feedback() -> pd.DataFrame | None:
 # UI Components
 # ---------------------------------------------------------------------------
 
-def render_sidebar() -> None:
-    """Render the sidebar with session context, controls, and live status."""
+def render_sidebar() -> str:
+    """Render sidebar with radio navigation and retrieval settings. Returns selected page."""
     with st.sidebar:
-        st.title("AI Tools Knowledge Base")
-        st.caption("Retrieval-Augmented Generation Pipeline")
+        st.markdown("### AI Tools Knowledge Base")
+        st.caption("Enterprise RAG Pipeline")
 
-        # Feature 2: Active Session ID Display
-        st.info(f"**Active Session ID:**\n`{st.session_state.session_id}`")
+        st.divider()
 
-        # Feature 4: Retrieval Configuration Panel
-        st.markdown("---")
-        st.markdown("### ⚙️ Retrieval Configuration")
-        st.session_state.retrieval_limit = st.slider(
-            "Top-K Document Limit", min_value=1, max_value=10, value=st.session_state.retrieval_limit
-        )
-        st.session_state.similarity_threshold = st.slider(
-            "Similarity Threshold", min_value=0.0, max_value=1.0, value=st.session_state.similarity_threshold, step=0.05
-        )
-        st.session_state.llm_temperature = st.slider(
-            "LLM Temperature", min_value=0.0, max_value=1.0, value=st.session_state.llm_temperature, step=0.1
-        )
-        st.session_state.max_tokens = st.number_input(
-            "Max Generation Tokens", min_value=64, max_value=2048, value=st.session_state.max_tokens, step=64
+        page = st.radio(
+            "Navigation",
+            options=[
+                "Homepage",
+                "Chat",
+                "Conversation History",
+                "Evaluation & Analytics",
+                "Admin Panel",
+            ],
+            index=0,
+            label_visibility="collapsed",
         )
 
-        # Feature 1: Conversation Management Actions
-        st.markdown("---")
-        st.markdown("### 🗂️ Conversation History")
-        if st.session_state.messages:
-            st.markdown(f"Active turns in memory: **{len(st.session_state.messages) // 2}**")
-            if st.button("🗑️ Clear Conversation History", use_container_width=True):
-                st.session_state.messages = []
-                st.rerun()
-        else:
-            st.caption("No conversations currently in active memory.")
+        st.divider()
 
-        st.markdown("---")
-        st.markdown("**Indexed Tools**")
-        tools = [
-            "Anthropic Claude", "Google Gemini", "LangChain", "LlamaIndex",
-            "Pinecone", "ChromaDB", "GitHub Copilot", "Cursor",
-            "Notion AI", "Perplexity AI", "Midjourney", "CapCut", "Hugging Face",
-        ]
-        st.markdown("  \n".join(f"• {t}" for t in tools))
+        with st.expander("Retrieval Settings", expanded=False):
+            st.session_state.retrieval_limit = st.slider(
+                "Top-K Documents", min_value=1, max_value=10, value=st.session_state.retrieval_limit
+            )
+            st.session_state.similarity_threshold = st.slider(
+                "Similarity Threshold", min_value=0.0, max_value=1.0, value=st.session_state.similarity_threshold, step=0.05
+            )
+            st.session_state.llm_temperature = st.slider(
+                "LLM Temperature", min_value=0.0, max_value=1.0, value=st.session_state.llm_temperature, step=0.1
+            )
+            st.session_state.max_tokens = st.number_input(
+                "Max Tokens", min_value=64, max_value=2048, value=st.session_state.max_tokens, step=64
+            )
+            if st.button("Apply Settings", use_container_width=True):
+                st.success("Retrieval settings saved.")
 
-        st.markdown("---")
-        st.markdown("**System Status**")
         data = load_analytics()
         total = data.get("total_requests", 0)
         success = data.get("successful_requests", 0)
         rate = (success / max(total, 1)) * 100
-        st.metric("Queries Processed", f"{total:,}")
-        st.metric("Success Rate", f"{rate:.0f}%")
-        st.metric("Est. API Cost", f"${data.get('estimated_api_cost_usd', 0):.4f}")
+        st.metric("Queries", f"{total:,}")
+        st.metric("Success", f"{rate:.0f}%")
+        st.metric("API Cost", f"${data.get('estimated_api_cost_usd', 0):.4f}")
 
-        st.markdown("---")
-        st.caption("Built with Streamlit · Qdrant · OpenAI")
+        st.divider()
+        st.caption(f"Session `{st.session_state.session_id[:8]}...`")
+        st.caption("Streamlit  ·  Qdrant  ·  OpenAI")
+
+    return page
 
 
 def render_telemetry_tab() -> None:
@@ -170,20 +165,22 @@ def render_telemetry_tab() -> None:
         try:
             with open("evaluation_results.json", "r", encoding="utf-8") as f:
                 eval_data = json.load(f)
-            
+
             if eval_data:
                 eval_df = pd.DataFrame([item["judge_scores"] for item in eval_data])
                 avg_scores = eval_df.mean()
-                
-                # Render evaluation metrics into visual bar charts cleanly
+
                 st.bar_chart(avg_scores)
-                
+
                 ec1, ec2, ec3 = st.columns(3)
                 ec1.metric("Benchmark Dataset Size", f"{len(eval_data)} queries")
                 ec2.metric("Avg Answer Relevance", f"{avg_scores.get('answer_relevance', 0):.2f}/5")
                 ec3.metric("Avg Context Faithfulness", f"{avg_scores.get('context_faithfulness', 0):.2f}/5")
         except Exception as e:
-            st.caption(f"Could not parse live evaluation dataset metrics: {e}")
+            st.error(f"Could not parse evaluation data: {e}")
+    else:
+        st.markdown("---")
+        st.info("No evaluation benchmarks available yet. Run the evaluation script to generate LLM-as-a-Judge scores.")
 
     st.markdown("---")
     st.header("Resource Utilization")
@@ -245,43 +242,150 @@ def render_telemetry_tab() -> None:
             )
             st.dataframe(styled, use_container_width=True)
     else:
-        st.info("No user feedback recorded yet. Start asking questions in the Chat tab.")
+        st.info("No user feedback recorded yet. Start asking questions in the **Chat** section.")
 
 
 def render_source_citations(results: list[Any], retrieval_ms: float) -> None:
-    """Feature 3: Advanced Source Explorer presentation panel."""
-    st.markdown(f"*Retrieved {len(results)} source chunks matching parameters in {retrieval_ms:.0f} ms*")
-    
-    for i, res in enumerate(results, 1):
+    """Advanced source display wrapped in a single expander with clean metadata formatting."""
+    filtered = []
+    for res in results:
         if isinstance(res, dict):
-            payload = res.get("payload", {}) or {}
             score = res.get("score", 0.0)
         else:
-            payload = getattr(res, "payload", {}) or {}
             score = getattr(res, "score", 0.0)
+        if score >= st.session_state.similarity_threshold:
+            filtered.append(res)
 
-        # Extraction parameters
-        tool_name = payload.get("tool", payload.get("document_name", "Unknown Document"))
-        source_url = payload.get("source_url", "")
-        chunk_text = payload.get("chunk_text", payload.get("text", "No text context parsed."))
-        chunk_idx = payload.get("chunk_index", i)
-        category = payload.get("category", "General Technical Reference")
+    if not filtered:
+        return
 
-        # Filtering metrics safely using dynamic similarity threshold constraints
-        if score < st.session_state.similarity_threshold:
-            continue
+    with st.expander(f"View Retrieved Sources  ({len(filtered)} chunks · {retrieval_ms:.0f} ms)", expanded=False):
+        for i, res in enumerate(filtered, 1):
+            if isinstance(res, dict):
+                payload = res.get("payload", {}) or {}
+                score = res.get("score", 0.0)
+            else:
+                payload = getattr(res, "payload", {}) or {}
+                score = getattr(res, "score", 0.0)
 
-        with st.expander(f"📖 Chunk {chunk_idx}: **{tool_name}** — Score: {score:.4f}", expanded=False):
-            st.markdown(f"**Document Title / Source:** {tool_name}")
-            st.markdown(f"**Category:** `{category}`")
-            st.markdown(f"**Cosine Match Score:** `{score:.4f}`")
-            
-            # Highlight context used
-            st.markdown("**Retrieved Text Block Context:**")
-            st.info(chunk_text[:1500])
-            
-            if source_url:
-                st.markdown(f"[🔗 Open Original Source Reference Link]({source_url})")
+            tool_name = payload.get("tool", payload.get("document_name", "Unknown Document"))
+            source_url = payload.get("source_url", "")
+            chunk_text = payload.get("chunk_text", payload.get("text", "No text context parsed."))
+            chunk_idx = payload.get("chunk_index", i)
+            category = payload.get("category", "General Technical Reference")
+
+            link_line = f"[Open Original Source]({source_url})" if source_url else "Not available"
+            st.markdown(
+                f"### {i}. {tool_name}\n\n"
+                f"**Category:** {category}  \n"
+                f"**Cosine Score:** `{score:.4f}`  \n"
+                f"**Chunk:** {chunk_idx}  \n"
+                f"**Original Link:** {link_line}"
+            )
+            st.caption("Retrieved context:")
+            st.text(chunk_text[:1200])
+            if i < len(filtered):
+                st.divider()
+
+
+def render_homepage() -> None:
+    """Professional landing page with project overview and key metrics."""
+    st.title("AI Tools Knowledge Base")
+    st.markdown(
+        "A production-grade Retrieval-Augmented Generation system for querying documentation "
+        "across **13 indexed AI tools**. Ask natural-language questions and receive grounded, "
+        "citation-backed answers in seconds."
+    )
+
+    st.divider()
+
+    with st.container():
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("#### Indexed Tools")
+            tools = [
+                "Anthropic Claude", "Google Gemini", "LangChain", "LlamaIndex",
+                "Pinecone", "ChromaDB", "GitHub Copilot", "Cursor",
+                "Notion AI", "Perplexity AI", "Midjourney", "CapCut", "Hugging Face",
+            ]
+            st.markdown("\n".join(f"- {t}" for t in tools))
+        with col2:
+            st.markdown("#### Capabilities")
+            st.markdown(
+                "- Semantic vector search over chunked docs\n"
+                "- LLM-grounded answer generation\n"
+                "- Source citation with similarity scores\n"
+                "- Conversation memory and history\n"
+                "- LLM-as-a-Judge evaluation benchmarks\n"
+                "- Full analytics and export pipeline"
+            )
+        with col3:
+            st.markdown("#### Quick Start")
+            st.markdown(
+                "1. Select **Chat** in the sidebar\n"
+                "2. Type a question about any indexed tool\n"
+                "3. Review the grounded answer and sources\n"
+                "4. Check **Evaluation & Analytics** for metrics"
+            )
+
+    st.divider()
+
+    with st.container():
+        data = load_analytics()
+        m1, m2, m3, m4 = st.columns(4)
+        m1.metric("Total Queries", f"{data.get('total_requests', 0):,}")
+        m2.metric("Avg Latency", f"{data.get('average_response_time_ms', 0):.0f} ms")
+        m3.metric("Tokens Consumed", f"{data.get('total_tokens_consumed', 0):,}")
+        m4.metric("Documents Indexed", "13")
+
+
+def render_history() -> None:
+    """Browse conversation history with metadata and a guarded clear action."""
+    st.header("Conversation History")
+    st.markdown("Review all queries and responses from the current session.")
+
+    st.divider()
+
+    if not st.session_state.messages:
+        st.info("No active conversation.")
+        return
+
+    assistant_msgs = [m for m in st.session_state.messages if m["role"] == "assistant"]
+    st.markdown(f"**{len(assistant_msgs)}** exchanges recorded this session.")
+
+    st.divider()
+
+    for i, msg in enumerate(st.session_state.messages):
+        role_label = "You" if msg["role"] == "user" else "Assistant"
+        timestamp = msg.get("timestamp", "")
+
+        with st.container():
+            st.markdown(f"**{role_label}**" + (f"  ·  `{timestamp}`" if timestamp else ""))
+            st.markdown(msg["content"])
+            if msg["role"] == "assistant" and msg.get("request_id"):
+                st.caption(
+                    f"Req ID: {msg['request_id']} | "
+                    f"Tokens: {msg.get('tokens', '—')} | "
+                    f"Latency: {msg.get('gen_ms', 0):.0f} ms"
+                )
+
+        if i < len(st.session_state.messages) - 1:
+            st.divider()
+
+    st.divider()
+
+    if st.button("Clear Conversation History", type="secondary"):
+        if "confirm_clear" not in st.session_state:
+            st.session_state.confirm_clear = True
+            st.warning("Press the button again to confirm clearing all history.")
+            st.rerun()
+        else:
+            st.session_state.messages = []
+            del st.session_state.confirm_clear
+            st.success("Conversation history cleared.")
+            st.rerun()
+    elif "confirm_clear" in st.session_state:
+        del st.session_state.confirm_clear
 
 
 def render_chat_tab() -> None:
@@ -485,22 +589,19 @@ def render_admin_tab() -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> None:
-    render_sidebar()
+    page = render_sidebar()
 
-    st.title("AI Tools Knowledge Base — RAG Assistant")
-
-    # Added the third tab here so nothing breaks!
-    tab_chat, tab_telemetry, tab_admin = st.tabs(["💬 Chat", "📊 Telemetry & Evaluation", "🛠️ Admin & Config"])
-
-    with tab_chat:
+    if page == "Homepage":
+        render_homepage()
+    elif page == "Chat":
         render_chat_tab()
-
-    with tab_telemetry:
+    elif page == "Conversation History":
+        render_history()
+    elif page == "Evaluation & Analytics":
         render_telemetry_tab()
-        
-    with tab_admin:
+    elif page == "Admin Panel":
         render_admin_tab()
 
 
 if __name__ == "__main__":
-    main()
+    main()  
