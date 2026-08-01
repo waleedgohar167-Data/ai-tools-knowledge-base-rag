@@ -444,6 +444,13 @@ def render_chat_tab() -> None:
             st.markdown(answer)
             st.caption(f"Req ID: `{req_id}` | Query Rewritten To: `{optimized_query}`")
             
+            # ELITE FEATURE 3: The Telemetry Inspector
+            with st.expander("🔍 Telemetry & Context Inspector"):
+                c1, c2, c3 = st.columns(3)
+                c1.metric("Retrieval Latency", f"{retrieval_ms:.0f} ms")
+                c2.metric("Tokens Consumed", f"{tokens}")
+                c3.metric("Generation Latency", f"{gen_ms:.0f} ms")
+            
             # --- FIX: Deep serialize ScoredPoints into plain dictionaries for complete JSON safety ---
             serializable_sources = []
             for res in results:
@@ -604,4 +611,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()  
+    main()

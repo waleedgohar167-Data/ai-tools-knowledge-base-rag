@@ -6,12 +6,17 @@ from services.analytics_service import record_transaction
 from services.feedback_service import save_feedback
 from app_logging.logger import get_logger
 
+# Feature 10 Import with defensive fallback
+try:
+    from services.query_processor import process_query_intent
+except ImportError:
+    process_query_intent = None
+
 # Instantiate the globally centralized application logger
 logger = get_logger("Main_Application")
 
 def main():
     """Main CLI application loop with comprehensive enterprise monitoring."""
-    # Log absolute application startup sequences across production files
     logger.info("==================================================")
     logger.info("Enterprise AI Knowledge Base Application Started.")
     logger.info("==================================================")
@@ -21,34 +26,46 @@ def main():
     print("=====================================================")
     print("Type 'exit' or 'quit' to close the application.\n")
 
+    # In-memory session history for CLI pre-processing context
+    chat_history = []
+
     while True:
         try:
             # Handle incoming user interaction securely
             user_input = input("\nAsk your question: ").strip()
             
             if not user_input:
-                # Log formal WARNING level metadata when empty criteria are submitted
                 logger.warning("User submitted an empty question string slot.")
                 print("⚠️ Please enter a valid question.")
                 continue
                 
             if user_input.lower() in ['exit', 'quit']:
-                # Log clean application shutdown states
                 logger.info("User initiated application shutdown sequence.")
                 print("Shutting down the AI Assistant. Goodbye!")
                 break
 
-            # Log every valid operational user query processed by the engine
             logger.info(f"New User Request received: '{user_input}'")
+
+            # --- FEATURE 10: INTELLIGENT PRE-PROCESSING ---
+            optimized_query = user_input
+            suggestions = []
+            if process_query_intent:
+                try:
+                    intent_data = process_query_intent(user_input, chat_history)
+                    optimized_query = intent_data.get("optimized_query", user_input)
+                    suggestions = intent_data.get("suggestions", [])
+                    if optimized_query != user_input:
+                        print(f"🔄 Query Rewritten To: '{optimized_query}'")
+                except Exception as pe:
+                    logger.warning(f"Query pre-processing failed, falling back to raw query: {pe}")
 
             print("\n🔍 Searching vector database...")
             # Unpack both the dense vector matches and the precise retrieval latency delta
-            results, retrieval_time = search(user_input, limit=5)
+            results, retrieval_time = search(optimized_query, limit=5)
             
             if not results:
-                # Log formal WARNING level events when search returns empty states
                 logger.warning(f"Vector search returned zero results for query: '{user_input}'")
-                print("⚠️ No relevant documents found. Please try rephrasing your question.")
+                print("⚠️ No relevant documents found meeting current similarity constraints.")
                 record_transaction(success=False, retrieval_time=retrieval_time)
                 continue
 
@@ -56,7 +73,7 @@ def main():
             # Unpack response text, generation runtime metrics, and final token distributions
             answer, gen_time, tokens = generate_response(user_input, results)
             
-            # Display beautifully formatted markdown layouts to the end user
+            # Display formatted markdown layouts to the end user
             print("\n" + "="*50)
             print("📝 AI RESPONSE")
             print("="*50)
@@ -68,14 +85,32 @@ def main():
             
             citations = []
             for res in results:
-                payload = getattr(res, 'payload', {}) or {}
+                # Safe handling for both dict payloads and ScoredPoint objects
+                if isinstance(res, dict):
+                    payload = res.get('payload', {}) or {}
+                    score = res.get('score', 0.0)
+                else:
+                    payload = getattr(res, 'payload', {}) or {}
+                    score = getattr(res, 'score', 0.0)
+                
                 doc_name = payload.get('tool', payload.get('document_name', 'Unknown'))
-                citations.append(f"- {doc_name} (Confidence Score: {res.score:.3f})")
+                citations.append(f"- {doc_name} (Confidence Score: {score:.3f})")
             
             # Output clean source validation listings
             for citation in citations:
                 print(citation)
             print("="*50)
+
+            # Display suggested follow-ups if generated by Feature 10
+            if suggestions:
+                print("\n💡 SUGGESTED FOLLOW-UPS:")
+                for s in suggestions:
+                    print(f"  • {s}")
+                print("-" * 50)
+
+            # Record turn into local CLI history
+            chat_history.append({"role": "user", "query": user_input, "content": user_input})
+            chat_history.append({"role": "assistant", "query": user_input, "content": answer})
 
             # --- PHASE 3: USER FEEDBACK SYSTEM ---
             print("\n" + "-"*50)

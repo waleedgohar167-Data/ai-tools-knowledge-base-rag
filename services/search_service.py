@@ -14,10 +14,14 @@ openai_client = OpenAI(api_key=OPENAI_API_KEY)
 db_client = QdrantClient(path="qdrant_local_data")
 COLLECTION_NAME = "ai_tools_kb"
 
+# ELITE FEATURE: Strict threshold to reject irrelevant vector matches
+SCORE_THRESHOLD = 0.72  
+
 def search(query: str, limit: int = 5) -> Tuple[List[Any], float]:
     """
     Dynamically embeds the incoming query and performs a vector search against Qdrant.
-    Returns the search results and the retrieval latency in ms.
+    Filters out low-confidence hits using a strict cosine threshold.
+    Returns the filtered search results and the retrieval latency in ms.
     """
     start_time = time.perf_counter()
     logger.info(f"Initiating vector retrieval for query: '{query}'")
@@ -37,10 +41,14 @@ def search(query: str, limit: int = 5) -> Tuple[List[Any], float]:
             limit=limit
         ).points  # type: ignore
         
-        retrieval_time = (time.perf_counter() - start_time) * 1000
-        logger.info(f"Successfully retrieved {len(search_result)} documents in {retrieval_time:.2f} ms.")
+        # ELITE FEATURE: Filter by Cosine Score Threshold to eliminate hallucinations
+        filtered_results = [point for point in search_result if point.score >= SCORE_THRESHOLD]
         
-        return search_result, retrieval_time
+        retrieval_time = (time.perf_counter() - start_time) * 1000
+        logger.info(f"Retrieved {len(search_result)} docs. {len(filtered_results)} passed threshold in {retrieval_time:.2f} ms.")
+        
+        # Exact same return signature as your original code to prevent breaking changes
+        return filtered_results, retrieval_time
     except Exception as e:
         logger.error(f"Search retrieval pipeline failed: {e}", exc_info=True)
         return [], 0.0
