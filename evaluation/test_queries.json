@@ -1,0 +1,304 @@
+{
+  "queries": [
+    {
+      "id": 1,
+      "query": "What is the enterprise pricing for LangChain?",
+      "intent": "factual",
+      "expected_tool": "langchain"
+    },
+    {
+      "id": 2,
+      "query": "How does LangChain handle vector store abstractions?",
+      "intent": "api",
+      "expected_tool": "langchain"
+    },
+    {
+      "id": 3,
+      "query": "Give me an example of a LangChain expression language LCEL chain.",
+      "intent": "api",
+      "expected_tool": "langchain"
+    },
+    {
+      "id": 4,
+      "query": "What are the latest production release notes for LangChain?",
+      "intent": "summary",
+      "expected_tool": "langchain"
+    },
+    {
+      "id": 5,
+      "query": "What is LlamaIndex used for in RAG pipelines?",
+      "intent": "factual",
+      "expected_tool": "llamaindex"
+    },
+    {
+      "id": 6,
+      "query": "How do you create a VectorStoreIndex in LlamaIndex?",
+      "intent": "api",
+      "expected_tool": "llamaindex"
+    },
+    {
+      "id": 7,
+      "query": "Compare LlamaIndex data connectors with LangChain document loaders.",
+      "intent": "comparison",
+      "expected_tool": "llamaindex"
+    },
+    {
+      "id": 8,
+      "query": "Summarize LlamaIndex query engine capabilities.",
+      "intent": "summary",
+      "expected_tool": "llamaindex"
+    },
+    {
+      "id": 9,
+      "query": "Explain how Cursor integrates with VS Code.",
+      "intent": "factual",
+      "expected_tool": "cursor"
+    },
+    {
+      "id": 10,
+      "query": "What are the indexing capabilities of Cursor for large codebases?",
+      "intent": "factual",
+      "expected_tool": "cursor"
+    },
+    {
+      "id": 11,
+      "query": "Does Cursor support multi-line editing using AI commands?",
+      "intent": "api",
+      "expected_tool": "cursor"
+    },
+    {
+      "id": 12,
+      "query": "What is the pricing model for Cursor Pro and Business tiers?",
+      "intent": "summary",
+      "expected_tool": "cursor"
+    },
+    {
+      "id": 13,
+      "query": "How does Pinecone handle serverless billing?",
+      "intent": "factual",
+      "expected_tool": "pinecone"
+    },
+    {
+      "id": 14,
+      "query": "Compare Pinecone and ChromaDB pricing.",
+      "intent": "comparison",
+      "expected_tool": "pinecone"
+    },
+    {
+      "id": 15,
+      "query": "What is the architecture behind Pinecone serverless indexes?",
+      "intent": "summary",
+      "expected_tool": "pinecone"
+    },
+    {
+      "id": 16,
+      "query": "How to initialize a Pinecone index via Python SDK?",
+      "intent": "api",
+      "expected_tool": "pinecone"
+    },
+    {
+      "id": 17,
+      "query": "What is Anthropic Claude 3.5 Sonnet context window size?",
+      "intent": "factual",
+      "expected_tool": "claude"
+    },
+    {
+      "id": 18,
+      "query": "How does Claude Artifacts work for code preview?",
+      "intent": "summary",
+      "expected_tool": "claude"
+    },
+    {
+      "id": 19,
+      "query": "What are the Anthropic Claude API rate limits for Tier 4?",
+      "intent": "api",
+      "expected_tool": "claude"
+    },
+    {
+      "id": 20,
+      "query": "Compare Claude 3.5 Sonnet vs GPT-4o benchmark scores.",
+      "intent": "comparison",
+      "expected_tool": "claude"
+    },
+    {
+      "id": 21,
+      "query": "What are the token limits for OpenAI GPT-4o?",
+      "intent": "factual",
+      "expected_tool": "openai"
+    },
+    {
+      "id": 22,
+      "query": "How to call OpenAI Chat Completions using response_format json_object?",
+      "intent": "api",
+      "expected_tool": "openai"
+    },
+    {
+      "id": 23,
+      "query": "What is OpenAI Assistant API thread management?",
+      "intent": "summary",
+      "expected_tool": "openai"
+    },
+    {
+      "id": 24,
+      "query": "Compare text-embedding-3-small and text-embedding-3-large.",
+      "intent": "comparison",
+      "expected_tool": "openai"
+    },
+    {
+      "id": 25,
+      "query": "How does Qdrant store vector payloads?",
+      "intent": "factual",
+      "expected_tool": "qdrant"
+    },
+    {
+      "id": 26,
+      "query": "What is the difference between Qdrant Cloud and local Docker setup?",
+      "intent": "comparison",
+      "expected_tool": "qdrant"
+    },
+    {
+      "id": 27,
+      "query": "How to create a Qdrant collection with cosine distance metric in Python?",
+      "intent": "api",
+      "expected_tool": "qdrant"
+    },
+    {
+      "id": 28,
+      "query": "Summarize Qdrant filtering capabilities for vector search.",
+      "intent": "summary",
+      "expected_tool": "qdrant"
+    },
+    {
+      "id": 29,
+      "query": "How to persist ChromaDB vectors locally in Python?",
+      "intent": "api",
+      "expected_tool": "chromadb"
+    },
+    {
+      "id": 30,
+      "query": "What embedding models are supported natively in ChromaDB?",
+      "intent": "factual",
+      "expected_tool": "chromadb"
+    },
+    {
+      "id": 31,
+      "query": "Compare ChromaDB client-server mode with embedded mode.",
+      "intent": "comparison",
+      "expected_tool": "chromadb"
+    },
+    {
+      "id": 32,
+      "query": "What are the main release features of ChromaDB?",
+      "intent": "summary",
+      "expected_tool": "chromadb"
+    },
+    {
+      "id": 33,
+      "query": "What is PagedAttention in vLLM?",
+      "intent": "factual",
+      "expected_tool": "vllm"
+    },
+    {
+      "id": 34,
+      "query": "How to serve an OpenAI compatible API using vLLM?",
+      "intent": "api",
+      "expected_tool": "vllm"
+    },
+    {
+      "id": 35,
+      "query": "Compare vLLM inference speed with HuggingFace TGI.",
+      "intent": "comparison",
+      "expected_tool": "vllm"
+    },
+    {
+      "id": 36,
+      "query": "Summarize memory management optimizations in vLLM.",
+      "intent": "summary",
+      "expected_tool": "vllm"
+    },
+    {
+      "id": 37,
+      "query": "How to run Llama 3 locally using Ollama command line?",
+      "intent": "api",
+      "expected_tool": "ollama"
+    },
+    {
+      "id": 38,
+      "query": "What model formats does Ollama support?",
+      "intent": "factual",
+      "expected_tool": "ollama"
+    },
+    {
+      "id": 39,
+      "query": "Compare Ollama vs vLLM for local developer testing.",
+      "intent": "comparison",
+      "expected_tool": "ollama"
+    },
+    {
+      "id": 40,
+      "query": "Summarize Ollama REST API endpoints.",
+      "intent": "summary",
+      "expected_tool": "ollama"
+    },
+    {
+      "id": 41,
+      "query": "What is Cohere Rerank and how does it improve RAG accuracy?",
+      "intent": "factual",
+      "expected_tool": "cohere"
+    },
+    {
+      "id": 42,
+      "query": "How to implement Cohere reranking in Python?",
+      "intent": "api",
+      "expected_tool": "cohere"
+    },
+    {
+      "id": 43,
+      "query": "Compare Cohere Command R+ with Claude 3.5 Sonnet.",
+      "intent": "comparison",
+      "expected_tool": "cohere"
+    },
+    {
+      "id": 44,
+      "query": "Summarize Cohere embed-english-v3.0 capabilities.",
+      "intent": "summary",
+      "expected_tool": "cohere"
+    },
+    {
+      "id": 45,
+      "query": "What is Mistral Large model context length?",
+      "intent": "factual",
+      "expected_tool": "mistral"
+    },
+    {
+      "id": 46,
+      "query": "How to access Mistral API endpoints via Python SDK?",
+      "intent": "api",
+      "expected_tool": "mistral"
+    },
+    {
+      "id": 47,
+      "query": "Compare Mistral NeMo with Mixtral 8x7B mixture of experts.",
+      "intent": "comparison",
+      "expected_tool": "mistral"
+    },
+    {
+      "id": 48,
+      "query": "What is Hugging Face Inference Endpoints dedicated hosting?",
+      "intent": "factual",
+      "expected_tool": "huggingface"
+    },
+    {
+      "id": 49,
+      "query": "How to download datasets using Hugging Face datasets library?",
+      "intent": "api",
+      "expected_tool": "huggingface"
+    },
+    {
+      "id": 50,
+      "query": "Summarize Hugging Face Hub model card requirements.",
+      "intent": "summary",
+      "expected_tool": "huggingface"
+    }
+  ]
+}

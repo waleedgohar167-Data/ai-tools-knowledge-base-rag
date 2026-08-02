@@ -29,14 +29,21 @@ def run_optimization_experiment():
             start_time = time.perf_counter()
             
             # Use the existing search service you built flawlessly
-            results = search(query, limit=limit)
+            search_res = search(query, limit=limit)
+            
+            # Safely unpack because Phase 3 search() returns (results, latency)
+            results = search_res[0] if isinstance(search_res, tuple) else search_res
             
             execution_time = (time.perf_counter() - start_time) * 1000  # Convert to ms
             total_time += execution_time
             
             if results:
-                # Calculate average similarity score for the returned chunks
-                avg_score = sum(res.score for res in results) / len(results)
+                # Safely extract score whether it's a dictionary or a ScoredPoint object
+                avg_score = sum(
+                    (res.get('score', 0.0) if isinstance(res, dict) else getattr(res, 'score', 0.0)) 
+                    for res in results
+                ) / len(results)
+                
                 total_score += avg_score
                 total_results += 1
             

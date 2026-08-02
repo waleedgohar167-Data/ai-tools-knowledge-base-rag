@@ -1,0 +1,363 @@
+[
+    {
+        "total_requests": 14,
+        "successful_requests": 14,
+        "failed_requests": 0,
+        "total_tokens_consumed": 10803,
+        "estimated_api_cost_usd": 0.021606,
+        "cumulative_response_time_ms": 37483.36592400489,
+        "cumulative_retrieval_time_ms": 31547.272183004538,
+        "average_response_time_ms": 2677.3832802860634,
+        "average_retrieval_latency_ms": 2253.376584500324
+    },
+    {
+        "query": "What is the enterprise pricing for LangChain?",
+        "retrieval_latency_ms": 2404.501499999242,
+        "generation_latency_ms": 1947.4179999997432,
+        "tokens_used": 892,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How does LangChain handle vector store abstractions?",
+        "retrieval_latency_ms": 317.7218000000721,
+        "generation_latency_ms": 1730.4565000004004,
+        "tokens_used": 515,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Give me an example of a LangChain expression language LCEL chain.",
+        "retrieval_latency_ms": 339.6124000000782,
+        "generation_latency_ms": 1991.1705000004076,
+        "tokens_used": 567,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What are the latest production release notes for LangChain?",
+        "retrieval_latency_ms": 280.76730000066163,
+        "generation_latency_ms": 2685.8138000006875,
+        "tokens_used": 692,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is LlamaIndex used for in RAG pipelines?",
+        "retrieval_latency_ms": 410.38969999954134,
+        "generation_latency_ms": 2352.267100000063,
+        "tokens_used": 562,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How do you create a VectorStoreIndex in LlamaIndex?",
+        "retrieval_latency_ms": 284.86960000009276,
+        "generation_latency_ms": 2990.6321000007665,
+        "tokens_used": 494,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare LlamaIndex data connectors with LangChain document loaders.",
+        "retrieval_latency_ms": 301.5244000007442,
+        "generation_latency_ms": 3575.3711999996085,
+        "tokens_used": 743,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Summarize LlamaIndex query engine capabilities.",
+        "retrieval_latency_ms": 704.3016999996325,
+        "generation_latency_ms": 2161.2310999998954,
+        "tokens_used": 941,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Explain how Cursor integrates with VS Code.",
+        "retrieval_latency_ms": 288.9569000008123,
+        "generation_latency_ms": 2562.002399999983,
+        "tokens_used": 687,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What are the indexing capabilities of Cursor for large codebases?",
+        "retrieval_latency_ms": 317.03029999971477,
+        "generation_latency_ms": 1031.565700000101,
+        "tokens_used": 839,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Does Cursor support multi-line editing using AI commands?",
+        "retrieval_latency_ms": 275.34099999957107,
+        "generation_latency_ms": 1568.5910000001968,
+        "tokens_used": 819,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is the pricing model for Cursor Pro and Business tiers?",
+        "retrieval_latency_ms": 292.73770000054355,
+        "generation_latency_ms": 4521.069000000352,
+        "tokens_used": 902,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How does Pinecone handle serverless billing?",
+        "retrieval_latency_ms": 927.0120000001043,
+        "generation_latency_ms": 1855.7459000003291,
+        "tokens_used": 684,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare Pinecone and ChromaDB pricing.",
+        "retrieval_latency_ms": 308.08000000070024,
+        "generation_latency_ms": 3171.6087000004336,
+        "tokens_used": 1058,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is the architecture behind Pinecone serverless indexes?",
+        "retrieval_latency_ms": 292.2507000002952,
+        "generation_latency_ms": 1444.2693999999392,
+        "tokens_used": 496,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to initialize a Pinecone index via Python SDK?",
+        "retrieval_latency_ms": 314.47799999932613,
+        "generation_latency_ms": 2039.891099999295,
+        "tokens_used": 576,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is Anthropic Claude 3.5 Sonnet context window size?",
+        "retrieval_latency_ms": 322.5339000000531,
+        "generation_latency_ms": 2132.0495999998457,
+        "tokens_used": 428,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How does Claude Artifacts work for code preview?",
+        "retrieval_latency_ms": 295.8260999994309,
+        "generation_latency_ms": 1856.873199999427,
+        "tokens_used": 748,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What are the Anthropic Claude API rate limits for Tier 4?",
+        "retrieval_latency_ms": 409.9407000003339,
+        "generation_latency_ms": 923.015000000305,
+        "tokens_used": 880,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare Claude 3.5 Sonnet vs GPT-4o benchmark scores.",
+        "retrieval_latency_ms": 285.6307000001834,
+        "generation_latency_ms": 2683.2985999999437,
+        "tokens_used": 1022,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What are the token limits for OpenAI GPT-4o?",
+        "retrieval_latency_ms": 411.40900000027614,
+        "generation_latency_ms": 1632.3242000007667,
+        "tokens_used": 775,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to call OpenAI Chat Completions using response_format json_object?",
+        "retrieval_latency_ms": 312.87869999960094,
+        "generation_latency_ms": 1242.4235999997109,
+        "tokens_used": 334,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is OpenAI Assistant API thread management?",
+        "retrieval_latency_ms": 416.0682000001543,
+        "generation_latency_ms": 814.801599999555,
+        "tokens_used": 826,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare text-embedding-3-small and text-embedding-3-large.",
+        "retrieval_latency_ms": 308.8564999998198,
+        "generation_latency_ms": 2502.4837999999363,
+        "tokens_used": 775,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How does Qdrant store vector payloads?",
+        "retrieval_latency_ms": 415.2619999995295,
+        "generation_latency_ms": 1221.572099999321,
+        "tokens_used": 170,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is the difference between Qdrant Cloud and local Docker setup?",
+        "retrieval_latency_ms": 309.1789999998582,
+        "generation_latency_ms": 1939.1537000001335,
+        "tokens_used": 326,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to create a Qdrant collection with cosine distance metric in Python?",
+        "retrieval_latency_ms": 403.1613000006473,
+        "generation_latency_ms": 1220.9226000004492,
+        "tokens_used": 230,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Summarize Qdrant filtering capabilities for vector search.",
+        "retrieval_latency_ms": 312.83690000054776,
+        "generation_latency_ms": 810.6321999994179,
+        "tokens_used": 661,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to persist ChromaDB vectors locally in Python?",
+        "retrieval_latency_ms": 411.58379999978933,
+        "generation_latency_ms": 2865.219700000125,
+        "tokens_used": 486,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What embedding models are supported natively in ChromaDB?",
+        "retrieval_latency_ms": 385.20900000003166,
+        "generation_latency_ms": 1733.9128000003257,
+        "tokens_used": 917,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare ChromaDB client-server mode with embedded mode.",
+        "retrieval_latency_ms": 283.0324999995355,
+        "generation_latency_ms": 2932.7542999999423,
+        "tokens_used": 747,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What are the main release features of ChromaDB?",
+        "retrieval_latency_ms": 288.7584000000061,
+        "generation_latency_ms": 1040.0386000001163,
+        "tokens_used": 750,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is PagedAttention in vLLM?",
+        "retrieval_latency_ms": 310.98020000081306,
+        "generation_latency_ms": 1529.7497000001385,
+        "tokens_used": 214,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to serve an OpenAI compatible API using vLLM?",
+        "retrieval_latency_ms": 285.21550000004936,
+        "generation_latency_ms": 2480.5311000000074,
+        "tokens_used": 1022,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare vLLM inference speed with HuggingFace TGI.",
+        "retrieval_latency_ms": 368.1213999998363,
+        "generation_latency_ms": 2863.9149999999063,
+        "tokens_used": 948,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Summarize memory management optimizations in vLLM.",
+        "retrieval_latency_ms": 289.63019999991957,
+        "generation_latency_ms": 1445.0639999995474,
+        "tokens_used": 280,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to run Llama 3 locally using Ollama command line?",
+        "retrieval_latency_ms": 416.81919999973616,
+        "generation_latency_ms": 1937.0318000001134,
+        "tokens_used": 604,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What model formats does Ollama support?",
+        "retrieval_latency_ms": 294.654499999524,
+        "generation_latency_ms": 1239.8537999997643,
+        "tokens_used": 760,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare Ollama vs vLLM for local developer testing.",
+        "retrieval_latency_ms": 299.9245000000883,
+        "generation_latency_ms": 3412.7931999992143,
+        "tokens_used": 1031,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Summarize Ollama REST API endpoints.",
+        "retrieval_latency_ms": 392.3766000007163,
+        "generation_latency_ms": 1448.9202000004298,
+        "tokens_used": 774,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is Cohere Rerank and how does it improve RAG accuracy?",
+        "retrieval_latency_ms": 289.8513999998613,
+        "generation_latency_ms": 2780.7087000001047,
+        "tokens_used": 351,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to implement Cohere reranking in Python?",
+        "retrieval_latency_ms": 922.0765999998548,
+        "generation_latency_ms": 3476.961499999561,
+        "tokens_used": 510,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare Cohere Command R+ with Claude 3.5 Sonnet.",
+        "retrieval_latency_ms": 277.16529999997874,
+        "generation_latency_ms": 3650.3374999992957,
+        "tokens_used": 881,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Summarize Cohere embed-english-v3.0 capabilities.",
+        "retrieval_latency_ms": 298.72530000011466,
+        "generation_latency_ms": 1031.3674999997602,
+        "tokens_used": 769,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is Mistral Large model context length?",
+        "retrieval_latency_ms": 269.02789999985544,
+        "generation_latency_ms": 1166.9652000000497,
+        "tokens_used": 451,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to access Mistral API endpoints via Python SDK?",
+        "retrieval_latency_ms": 272.97009999983857,
+        "generation_latency_ms": 2284.5870999999534,
+        "tokens_used": 340,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Compare Mistral NeMo with Mixtral 8x7B mixture of experts.",
+        "retrieval_latency_ms": 329.5222000006106,
+        "generation_latency_ms": 4566.419400000086,
+        "tokens_used": 853,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "What is Hugging Face Inference Endpoints dedicated hosting?",
+        "retrieval_latency_ms": 1049.2865999995047,
+        "generation_latency_ms": 1219.6060999995098,
+        "tokens_used": 816,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "How to download datasets using Hugging Face datasets library?",
+        "retrieval_latency_ms": 312.94549999984156,
+        "generation_latency_ms": 2575.1082000006136,
+        "tokens_used": 576,
+        "source": "50-query-benchmark"
+    },
+    {
+        "query": "Summarize Hugging Face Hub model card requirements.",
+        "retrieval_latency_ms": 311.18250000054104,
+        "generation_latency_ms": 2041.2727000002633,
+        "tokens_used": 948,
+        "source": "50-query-benchmark"
+    }
+]
