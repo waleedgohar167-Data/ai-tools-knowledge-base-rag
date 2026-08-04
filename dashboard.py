@@ -116,21 +116,22 @@ def render_sidebar() -> str:
         st.caption("Enterprise RAG Pipeline")
         st.divider()
 
+        # UPDATED: Navigation updated to reflect new tabs per Execution Plan
         page = st.radio(
             "Navigation",
-            options=["Homepage", "Chat", "Conversation History", "Evaluation & Analytics", "Admin Panel"],
+            options=[
+                "Homepage", 
+                "Chat", 
+                "Conversation History", 
+                "Application Statistics", 
+                "Project Settings", 
+                "Admin Panel"
+            ],
             index=0,
             label_visibility="collapsed",
         )
 
         st.divider()
-        with st.expander("Retrieval Settings", expanded=False):
-            st.session_state.retrieval_limit = st.slider("Top-K Documents", 1, 10, st.session_state.retrieval_limit)
-            st.session_state.similarity_threshold = st.slider("Similarity Threshold", 0.0, 1.0, st.session_state.similarity_threshold, 0.05)
-            st.session_state.llm_temperature = st.slider("LLM Temperature", 0.0, 1.0, st.session_state.llm_temperature, 0.1)
-            st.session_state.max_tokens = st.number_input("Max Tokens", 64, 2048, st.session_state.max_tokens, 64)
-            if st.button("Apply Settings", use_container_width=True):
-                st.success("Retrieval settings saved.")
 
         data = load_analytics()
         total = data.get("total_requests", 0)
@@ -145,12 +146,38 @@ def render_sidebar() -> str:
         st.caption("Streamlit  ·  Qdrant  ·  OpenAI")
     return str(page)
 
+# NEW: Centralized Project Settings Page
+def render_settings_tab() -> None:
+    st.header("⚙️ Project Settings & Configuration")
+    st.markdown("Centralize all application configurations, retrieval limits, and LLM behaviors.")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("🔍 Retrieval Configuration")
+        with st.container(border=True):
+            st.session_state.retrieval_limit = st.slider("Top-K Documents", 1, 10, st.session_state.retrieval_limit)
+            st.session_state.similarity_threshold = st.slider("Similarity Threshold", 0.0, 1.0, st.session_state.similarity_threshold, 0.05)
+            
+    with col2:
+        st.subheader("🧠 Generation Configuration")
+        with st.container(border=True):
+            st.session_state.llm_temperature = st.slider("LLM Temperature", 0.0, 1.0, st.session_state.llm_temperature, 0.1)
+            st.session_state.max_tokens = st.number_input("Max Tokens", 64, 2048, st.session_state.max_tokens, 64)
+
+    st.subheader("📝 System Prompt Management")
+    with st.container(border=True):
+        new_prompt = st.text_area("System Prompt", value=st.session_state.system_prompt, height=100)
+        
+        if st.button("Save Configurations", type="primary"):
+            st.session_state.system_prompt = new_prompt
+            st.success("✅ Application settings and configurations updated successfully!")
+
 def render_telemetry_tab() -> None:
     data = load_analytics()
     total_reqs = max(data.get("total_requests", 1), 1)
     success_rate = (data.get("successful_requests", 0) / total_reqs) * 100
 
-    st.header("Core Pipeline Metrics")
+    st.header("📈 Application Statistics Dashboard")
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Total Invocations", f"{data.get('total_requests', 0):,}")
     col2.metric("Retrieval Success Rate", f"{success_rate:.1f}%")
@@ -297,43 +324,50 @@ def render_chat_tab() -> None:
 
 def render_admin_tab() -> None:
     st.header("🛠️ Administration & Diagnostics")
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Database Status", "🟢 Online (Qdrant)")
-    c2.metric("Active Sessions Today", "1")
-    c3.metric("Indexed Documents", "13")
     
-    st.markdown("---")
-    st.subheader("📥 Export Project Data")
-    ec1, ec2, ec3 = st.columns(3)
-    ec1.download_button("Export Chat", data=json.dumps(st.session_state.messages, indent=2), file_name="chat.json", mime="application/json")
-    if os.path.exists(FEEDBACK_FILE):
-        with open(FEEDBACK_FILE, "rb") as f: ec2.download_button("Export Feedback", data=f.read(), file_name="feedback.csv", mime="text/csv")
+    # UPDATED: Admin Panel organized into clean sub-tabs
+    tab_health, tab_exports = st.tabs(["System Health", "Data Exports & Analytics"])
     
-    st.markdown("---")
-    st.subheader("📊 Advanced Analytics CSV Export")
-    if not os.path.exists(ANALYTICS_FILE):
-        st.warning("⚠️ No analytics log file found.")
-    else:
-        try:
-            with open(ANALYTICS_FILE, "r", encoding="utf-8") as f: data = json.load(f)
-            records = data.get("details", [data]) if isinstance(data, dict) else data
-            if records:
-                df_export = pd.DataFrame(records)
-                cols = ["query", "retrieval_latency_ms", "generation_latency_ms", "tokens_used", "source"]
-                for c in cols: 
-                    if c not in df_export.columns: df_export[c] = "N/A"
-                df_export = df_export[cols + [c for c in df_export.columns if c not in cols]]
-                st.dataframe(df_export.head(), use_container_width=True)
-                st.download_button("📥 Download Analytics CSV (Formatted)", data=df_export.to_csv(index=False).encode("utf-8"), file_name="rag_analytics.csv", mime="text/csv")
-        except Exception as e:
-            st.error(f"Error parsing export: {e}")
+    with tab_health:
+        st.subheader("Infrastructure Diagnostics")
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Database Status", "🟢 Online (Qdrant)")
+        c2.metric("Active Sessions Today", "1")
+        c3.metric("Indexed Documents", "13")
+        
+    with tab_exports:
+        st.subheader("📥 Export Project Data")
+        ec1, ec2, ec3 = st.columns(3)
+        ec1.download_button("Export Chat", data=json.dumps(st.session_state.messages, indent=2), file_name="chat.json", mime="application/json")
+        if os.path.exists(FEEDBACK_FILE):
+            with open(FEEDBACK_FILE, "rb") as f: ec2.download_button("Export Feedback", data=f.read(), file_name="feedback.csv", mime="text/csv")
+        
+        st.markdown("---")
+        st.subheader("📊 Advanced Analytics CSV Export")
+        if not os.path.exists(ANALYTICS_FILE):
+            st.warning("⚠️ No analytics log file found.")
+        else:
+            try:
+                with open(ANALYTICS_FILE, "r", encoding="utf-8") as f: data = json.load(f)
+                records = data.get("details", [data]) if isinstance(data, dict) else data
+                if records:
+                    df_export = pd.DataFrame(records)
+                    cols = ["query", "retrieval_latency_ms", "generation_latency_ms", "tokens_used", "source"]
+                    for c in cols: 
+                        if c not in df_export.columns: df_export[c] = "N/A"
+                    df_export = df_export[cols + [c for c in df_export.columns if c not in cols]]
+                    st.dataframe(df_export.head(), use_container_width=True)
+                    st.download_button("📥 Download Analytics CSV (Formatted)", data=df_export.to_csv(index=False).encode("utf-8"), file_name="rag_analytics.csv", mime="text/csv")
+            except Exception as e:
+                st.error(f"Error parsing export: {e}")
 
 def main() -> None:
     page = render_sidebar()
     if page == "Homepage": render_homepage()
     elif page == "Chat": render_chat_tab()
     elif page == "Conversation History": render_history()
-    elif page == "Evaluation & Analytics": render_telemetry_tab()
+    elif page == "Application Statistics": render_telemetry_tab()
+    elif page == "Project Settings": render_settings_tab()
     elif page == "Admin Panel": render_admin_tab()
 
 if __name__ == "__main__":
