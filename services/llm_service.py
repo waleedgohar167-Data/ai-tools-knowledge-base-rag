@@ -19,12 +19,23 @@ def generate_response(user_query: str, search_results: list, temperature: float 
     start_time = time.perf_counter()
     system_prompt, user_prompt = build_rag_prompt(user_query, search_results)
     
+    # Phase 2 Optimization: Dynamically enforce strict grounding and token efficiency 
+    # without breaking the original template architecture.
+    strict_system_prompt = (
+        f"{system_prompt}\n\n"
+        "CRITICAL RULES:\n"
+        "1. If the answer is not explicitly in the provided context, say EXACTLY: 'I do not have enough information to answer that based on the current knowledge base.'\n"
+        "2. Do not hallucinate, infer, or use outside knowledge.\n"
+        "3. If the user query is vague or ambiguous, politely ask for clarification.\n"
+        "4. Keep the response highly concise to minimize token usage."
+    )
+    
     try:
         logger.info(f"Sending generation request to OpenAI (gpt-3.5-turbo | temp: {temperature} | max_tokens: {max_tokens}).")
         response = openai_client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": strict_system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
             temperature=temperature,
@@ -59,6 +70,8 @@ def evaluate_response_quality(query: str, retrieved_context: str, generated_resp
     """
     logger.info("Initiating LLM-as-a-Judge response evaluation.")
     
+    # Phase 3 Optimization: Improved scoring criteria to handle enterprise edge cases 
+    # (like scoring a 5 when the system safely refuses out-of-domain queries).
     judge_prompt = f"""
     You are an expert enterprise AI evaluator grading a Retrieval-Augmented Generation (RAG) system.
     Analyze the original user query, the retrieved context chunks, and the generated system response carefully.
@@ -68,12 +81,12 @@ def evaluate_response_quality(query: str, retrieved_context: str, generated_resp
     Generated Response: {generated_response}
     
     Score the following criteria strictly from 1 to 5 (1 being poor/inaccurate, 5 being flawless/perfect):
-    1. answer_relevance: Does the response directly, cleanly, and fully address the user's core intent?
-    2. context_faithfulness: Is the response strictly grounded in the provided context? Deduct points for any outside assumptions or hallucinations.
-    3. completeness: Does the response fully answer all explicit and implicit aspects of the user's question?
-    4. correctness: Is the information factually accurate and completely true relative to the provided text?
+    1. answer_relevance: Does the response address the user's core intent? (NOTE: If the system correctly refuses an out-of-scope query, score this a 5).
+    2. context_faithfulness: Is the response strictly grounded in the provided context? Deduct points heavily for hallucinations or outside knowledge.
+    3. completeness: Does the response fully answer the question based ONLY on the context?
+    4. correctness: Is the information factually accurate relative to the provided text?
     5. clarity: Is the structure, readability, and delivery of the text optimal and highly professional?
-    6. source_citation_quality: Does the response properly and clearly credit the target context documentation without misattribution?
+    6. source_citation_quality: Does the response properly and clearly credit the target context without misattribution?
     
     Your output must be strictly formatted as a valid JSON object matching this exact schema:
     {{

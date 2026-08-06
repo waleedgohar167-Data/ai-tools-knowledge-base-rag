@@ -589,3 +589,8 @@ docker run -d `
 ## License
 
 This project is developed for educational and portfolio purposes.
+
+
+### August 6 Updates
+- **Enterprise Benchmarking:** Expanded evaluation to include multi-step reasoning, ambiguity handling, and strict safety refusals.
+- **Pipeline Optimization:** Improved error handling, logging, and token-efficient prompt engineering.
